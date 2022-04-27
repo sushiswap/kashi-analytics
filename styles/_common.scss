@@ -1,0 +1,15 @@
+html,
+body {
+  @apply p-0;
+  @apply m-0;
+  @apply font-sans;
+  @apply bg-gray-100;
+}
+
+a {
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
