@@ -14,6 +14,12 @@ const classByColor = {
     progressContainer: "bg-purple-300",
     progressActive: "bg-purple-500",
   },
+  sky: {
+    title: "text-gray-400",
+    percent: "text-sky-500",
+    progressContainer: "bg-sky-300",
+    progressActive: "bg-sky-500",
+  },
 };
 
 const Progress = ({
@@ -24,7 +30,7 @@ const Progress = ({
   containerClass = "",
 }: {
   loading?: boolean;
-  color?: "emerald" | "purple";
+  color?: "emerald" | "purple" | "sky";
   progress?: number;
   title?: string;
   containerClass?: string;

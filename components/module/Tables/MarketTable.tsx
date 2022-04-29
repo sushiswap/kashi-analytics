@@ -1,17 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-import Image from "next/image";
+import { BigNumber } from "ethers";
 import Link from "next/link";
 import numeral from "numeral";
-import React, { ReactEventHandler, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { FaSortDown, FaSortUp } from "react-icons/fa";
 import InfiniteScroll from "react-infinite-scroller";
 import { KashiPair } from "../../../types/KashiPair";
-import { BigNumber } from "ethers";
-import { FaSortDown, FaSortUp } from "react-icons/fa";
-import { HiOutlineSortAscending } from "react-icons/hi";
 
 type OrderBy =
   | "asset"
   | "collateral"
+  | "totalSupply"
   | "totalAsset"
   | "supplyAPY"
   | "totalBorrow"
@@ -34,8 +33,8 @@ const MarketTableHead = ({
   };
 
   return (
-    <div className="w-full grid grid-cols-11 px-8 py-2 text-sm text-slate-400">
-      <div className="col-span-3">
+    <div className="w-full grid grid-cols-10 px-8 py-2 text-sm text-slate-400">
+      <div className="col-span-2">
         <span
           onClick={() => {
             onSort("asset");
@@ -58,16 +57,27 @@ const MarketTableHead = ({
       <div
         className="col-span-2 text-right"
         onClick={() => {
-          onSort("totalAsset");
+          onSort("totalSupply");
         }}
       >
         <span className="cursor-pointer">
           Total Supply
-          {orderBy === "totalAsset" && iconByDirection[orderDirection]}
+          {orderBy === "totalSupply" && iconByDirection[orderDirection]}
         </span>
       </div>
       <div
         className="col-span-2 text-right"
+        onClick={() => {
+          onSort("totalAsset");
+        }}
+      >
+        <span className="cursor-pointer">
+          Total Asset
+          {orderBy === "totalAsset" && iconByDirection[orderDirection]}
+        </span>
+      </div>
+      <div
+        className="col-span-1 text-right"
         onClick={() => {
           onSort("supplyAPY");
         }}
@@ -89,7 +99,7 @@ const MarketTableHead = ({
         </span>
       </div>
       <div
-        className="col-span-2 text-right"
+        className="col-span-1 text-right"
         onClick={() => {
           onSort("borrowAPY");
         }}
@@ -104,8 +114,8 @@ const MarketTableHead = ({
 };
 
 const MarketTableRowLoading = () => (
-  <div className="w-full grid grid-cols-11 px-8 py-3 border-l-2 border-transparent border-t border-t-gray-200 hover:border-l-emerald-400 cursor-pointer items-center">
-    <div className="col-span-3 items-center flex">
+  <div className="w-full grid grid-cols-10 px-8 py-3 border-l-2 border-transparent border-t border-t-gray-200 hover:border-l-emerald-400 cursor-pointer items-center">
+    <div className="col-span-2 items-center flex">
       <div>
         <div className="inline-block loading h-8 w-8 rounded-full"></div>
         <div className="-ml-2 inline-block loading h-8 w-8 rounded-full"></div>
@@ -128,6 +138,14 @@ const MarketTableRowLoading = () => (
       </div>
     </div>
     <div className="col-span-2 text-right">
+      <div>
+        <div className="inline-block loading h-5 w-32 rounded"></div>
+      </div>
+      <div>
+        <div className="inline-block loading h-4 w-28 rounded"></div>
+      </div>
+    </div>
+    <div className="col-span-1 text-right">
       <div className="inline-block loading h-5 w-12 rounded"></div>
     </div>
     <div className="col-span-2 text-right">
@@ -138,7 +156,7 @@ const MarketTableRowLoading = () => (
         <div className="inline-block loading h-4 w-28 rounded"></div>
       </div>
     </div>
-    <div className="col-span-2 text-right">
+    <div className="col-span-1 text-right">
       <div className="inline-block loading h-5 w-12 rounded"></div>
     </div>
   </div>
@@ -157,8 +175,8 @@ const MarketTableRow = ({
   };
   return (
     <Link href={`/markets/${data.symbol.toLowerCase()}`}>
-      <a className="w-full grid grid-cols-11 px-8 py-3 border-l-2 border-transparent border-t border-t-gray-200 hover:border-l-emerald-400 cursor-pointer items-center">
-        <div className="col-span-3 items-center flex">
+      <a className="w-full grid grid-cols-10 px-8 py-3 border-l-2 border-transparent border-t border-t-gray-200 hover:border-l-emerald-400 cursor-pointer items-center">
+        <div className="col-span-2 items-center flex">
           <div>
             <img
               src={`https://raw.githubusercontent.com/sushiswap/icons/master/token/${data.asset?.symbol.toLowerCase()}.jpg`}
@@ -186,6 +204,29 @@ const MarketTableRow = ({
         </div>
         <div className="col-span-2 text-right">
           <div>
+            {numeral(
+              BigNumber.from(data?.totalAsset)
+                .add(BigNumber.from(data.totalBorrow))
+                .toNumber() / 100
+            ).format("$0,.00")}
+          </div>
+          <div className="text-gray-400 text-xs">
+            {numeral(
+              BigNumber.from(data?.totalAssetElastic)
+                .add(BigNumber.from(data.totalBorrowElastic))
+                .div(
+                  BigNumber.from("10").pow(
+                    Number(data.asset?.decimals || 0) - 2
+                  )
+                )
+                .toNumber() / 100
+            ).format("0,.00")}
+            &nbsp;
+            {data.asset?.symbol}
+          </div>
+        </div>
+        <div className="col-span-2 text-right">
+          <div>
             {numeral(BigNumber.from(data?.totalAsset).toNumber() / 100).format(
               "$0,.00"
             )}
@@ -204,7 +245,7 @@ const MarketTableRow = ({
             {data.asset?.symbol}
           </div>
         </div>
-        <div className="col-span-2 text-right">
+        <div className="col-span-1 text-right">
           {numeral(
             BigNumber.from(data?.supplyAPR)
               .div(BigNumber.from("1000000000000"))
@@ -231,7 +272,7 @@ const MarketTableRow = ({
             {data.asset?.symbol}
           </div>
         </div>
-        <div className="col-span-2 text-right">
+        <div className="col-span-1 text-right">
           {numeral(
             BigNumber.from(data?.borrowAPR)
               .div(BigNumber.from("1000000000000"))
@@ -286,6 +327,24 @@ const MarketTable = ({
           (b.collateral?.symbol.toLowerCase() || "").localeCompare(
             a.collateral?.symbol.toLowerCase() || ""
           ),
+      },
+      totalSupply: {
+        asc: (a: KashiPair, b: KashiPair) =>
+          BigNumber.from(a.totalAsset)
+            .add(BigNumber.from(a.totalBorrow))
+            .lte(
+              BigNumber.from(b.totalAsset).add(BigNumber.from(b.totalBorrow))
+            )
+            ? -1
+            : 1,
+        desc: (a: KashiPair, b: KashiPair) =>
+          BigNumber.from(a.totalAsset)
+            .add(BigNumber.from(a.totalBorrow))
+            .gte(
+              BigNumber.from(b.totalAsset).add(BigNumber.from(b.totalBorrow))
+            )
+            ? -1
+            : 1,
       },
       totalAsset: {
         asc: (a: KashiPair, b: KashiPair) =>

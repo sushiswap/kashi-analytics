@@ -4,7 +4,7 @@ import numeral from "numeral";
 import { KashiPair } from "../../../types/KashiPair";
 import { BigNumber } from "ethers";
 
-type TotalData = {
+export type TotalData = {
   amount: BigInt;
   volumeIn24H: BigInt;
   totalUsers: BigInt;
@@ -12,13 +12,14 @@ type TotalData = {
 };
 
 type AttributesByBorrowType = {
-  progressColor: "purple" | "emerald";
+  progressColor: "purple" | "emerald" | "sky";
   title: string;
   users: string;
 };
 
 type AttributesMapByBorrowType = {
   borrow: AttributesByBorrowType;
+  asset: AttributesByBorrowType;
   supply: AttributesByBorrowType;
 };
 
@@ -27,6 +28,11 @@ const AttributesMapByBorrow = {
     progressColor: "purple",
     title: "Total Borrow",
     users: "Borrowers",
+  },
+  asset: {
+    progressColor: "sky",
+    title: "Total Asset",
+    users: "Suppliers",
   },
   supply: {
     progressColor: "emerald",
@@ -43,7 +49,7 @@ const TotalCard = ({
 }: {
   containerClass?: string;
   data: TotalData;
-  borrow?: "borrow" | "supply";
+  borrow?: "borrow" | "asset" | "supply";
   loading?: boolean;
 }) => {
   const attributes = AttributesMapByBorrow[borrow];
@@ -86,7 +92,11 @@ const TotalCard = ({
                 BigNumber.from(
                   borrow === "borrow"
                     ? marketData.totalBorrow
-                    : marketData.totalAsset
+                    : borrow === "asset"
+                    ? marketData.totalAsset
+                    : BigNumber.from(marketData.totalBorrow)
+                        .add(BigNumber.from(marketData.totalAsset))
+                        .toBigInt()
                 )
                   .mul(BigNumber.from("10000"))
                   .div(BigNumber.from(data.amount))
@@ -95,10 +105,10 @@ const TotalCard = ({
             />
           ))
         )}
-        <div className="mt-8 border-t pt-6">
+        {/* <div className="mt-8 border-t pt-6">
           <div className="flex justify-between">
             <div>
-              {/* <div className="text-sm text-gray-400 font-semibold">
+              <div className="text-sm text-gray-400 font-semibold">
                 24H Supply Volume
               </div>
               <div className="mt-2">
@@ -107,7 +117,7 @@ const TotalCard = ({
                 ) : (
                   numeral(data.volumeIn24H).format("$0,0.00")
                 )}
-              </div> */}
+              </div>
             </div>
             <div className="text-right">
               <div className="text-sm text-gray-400 font-semibold">
@@ -122,7 +132,7 @@ const TotalCard = ({
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
