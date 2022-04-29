@@ -47,7 +47,7 @@ const Header = () => {
                     </a>
                   </Link>
                 </div>
-                <div className="hidden sm:block mx-auto">
+                {/* <div className="hidden sm:block mx-auto">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
                       <Link href={item.href} key={item.name}>
@@ -61,16 +61,16 @@ const Header = () => {
                       </Link>
                     ))}
                   </div>
-                </div>
+                </div> */}
               </div>
-              <div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6">
+              {/* <div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6">
                 <Button rounded="sm">App</Button>
-              </div>
+              </div> */}
             </div>
           </div>
 
           <Disclosure.Panel className="sm:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1">
+            {/* <div className="px-2 pt-2 pb-3 space-y-1">
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
@@ -84,7 +84,7 @@ const Header = () => {
                   {item.name}
                 </Disclosure.Button>
               ))}
-            </div>
+            </div> */}
           </Disclosure.Panel>
         </>
       )}

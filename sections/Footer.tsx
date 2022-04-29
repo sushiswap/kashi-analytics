@@ -35,7 +35,7 @@ const Footer = () => {
               </a>
             </Link>
           </div>
-          <div className="col-span-6 sm:col-span-4">
+          {/* <div className="col-span-6 sm:col-span-4">
             <div className="grid grid-cols-2 sm:grid-cols-3">
               <div className="col-span-1 mt-4 sm:mt-0">
                 <h4 className="font-medium text-lg">Protocal</h4>
@@ -86,7 +86,7 @@ const Footer = () => {
           </div>
           <div className="col-span-6 hidden sm:block sm:col-span-1 text-right">
             <Button rounded="sm">App</Button>
-          </div>
+          </div> */}
         </div>
         <div className="border-t border-slate-800 text-slate-400 text-xs pt-6">
           © 2022 Kashi Market
