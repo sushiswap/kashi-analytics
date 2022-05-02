@@ -20,7 +20,7 @@ const LinkItem = ({
 const Footer = () => {
   return (
     <div className="bg-black">
-      <div className="max-w-7xl mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 py-4">
         <div className="grid grid-cols-6 gap-4 text-white py-8">
           <div className="col-span-6 sm:col-span-1">
             <Link href="/">

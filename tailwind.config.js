@@ -25,6 +25,12 @@ module.exports = {
           duration: "2s",
           timing: "cubic-bezier(0.4, 0.0, 0.2, 1)",
         },
+        black: {
+          baseColor: colors.gray[900],
+          movingColor: `linear-gradient(to right, transparent 0%, ${colors.gray[800]} 50%, transparent 100%)`,
+          duration: "2s",
+          timing: "ease",
+        },
       },
     },
   },

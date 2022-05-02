@@ -1,10 +1,8 @@
-import { KashiPairDayDataMap } from "../../types/KashiPairDayData";
-import Highcharts from "highcharts/highstock";
-import HighchartsReact from "highcharts-react-official";
 import { BigNumber } from "ethers";
 import moment from "moment";
-import KashiPairDayDataChart from "../../components/module/Charts/KashiPairDayDataChart";
-import KashiPairCompareChart from "../../components/module/Charts/KashiPairCompareChart";
+import TotalCompareChart from "../../components/module/Charts/TotalCompareChart";
+import TotalDayDataChart from "../../components/module/Charts/TotalDayDataChart";
+import { KashiPairDayDataMap } from "../../types/KashiPairDayData";
 
 const Charts = ({
   loading,
@@ -20,13 +18,13 @@ const Charts = ({
       supplyData.push({
         x: moment(item.date).valueOf(),
         y:
-          BigNumber.from(item.totalAssets)
-            .add(BigNumber.from(item.totalBorrows))
+          BigNumber.from(item.totalAsset)
+            .add(BigNumber.from(item.totalBorrow))
             .toNumber() / 100.0,
       });
       borrowData.push({
         x: moment(item.date).valueOf(),
-        y: BigNumber.from(item.totalBorrows).toNumber() / 100.0,
+        y: BigNumber.from(item.totalBorrow).toNumber() / 100.0,
       });
     });
     return [
@@ -45,29 +43,14 @@ const Charts = ({
     ];
   };
 
-  const optionsSupplyBorrow = {
-    title: {
-      style: {
-        height: "50px",
-        padding: "24px",
-        fontWeight: "bold",
-        fontSize: "18px",
-      },
-    },
-    scrollbar: {
-      enabled: false,
-    },
-    series: getSeriesSupplyBorrow(),
-  };
-
   return (
     <div className="mb-4 container mx-auto px-4">
       <div className="grid grid-cols-2 gap-4">
         <div className="col-span-1">
-          <KashiPairDayDataChart loading={loading} data={data} />
+          <TotalDayDataChart loading={loading} data={data} />
         </div>
         <div className="col-span-1">
-          <KashiPairCompareChart loading={loading} data={data} />
+          <TotalCompareChart loading={loading} data={data} />
         </div>
       </div>
     </div>

@@ -1,10 +1,10 @@
-import Highcharts from "highcharts/highstock";
-import HighchartsReact from "highcharts-react-official";
 import { BigNumber } from "ethers";
+import HighchartsReact from "highcharts-react-official";
+import Highcharts from "highcharts/highstock";
 import moment from "moment";
 import { KashiPairDayDataMap } from "../../../types/KashiPairDayData";
 
-const KashiPairDayDataChart = ({
+const TotalDayDataChart = ({
   loading,
   data,
 }: {
@@ -18,13 +18,13 @@ const KashiPairDayDataChart = ({
       supplyData.push({
         x: moment(item.date).valueOf(),
         y:
-          BigNumber.from(item.totalAssets)
-            .add(BigNumber.from(item.totalBorrows))
+          BigNumber.from(item.totalAsset)
+            .add(BigNumber.from(item.totalBorrow))
             .toNumber() / 100.0,
       });
       borrowData.push({
         x: moment(item.date).valueOf(),
-        y: BigNumber.from(item.totalBorrows).toNumber() / 100.0,
+        y: BigNumber.from(item.totalBorrow).toNumber() / 100.0,
       });
     });
     return [
@@ -33,12 +33,18 @@ const KashiPairDayDataChart = ({
         color: "#10b981",
         name: "Supply",
         data: supplyData,
+        tooltip: {
+          pointFormat: "Supply&nbsp;&nbsp; ${point.y}",
+        },
       },
       {
         type: "line",
         color: "#a855f7",
         name: "Borrow",
         data: borrowData,
+        tooltip: {
+          pointFormat: "Borrow&nbsp;&nbsp; ${point.y}",
+        },
       },
     ];
   };
@@ -82,10 +88,9 @@ const KashiPairDayDataChart = ({
   };
 
   return (
-    <div className="bg-white shadow-lg rounded">
+    <div className="bg-white shadow-lg rounded overflow-hidden">
       <div className="text-center text-lg font-medium pt-6">
-        Total supply &amp; Total borrow&nbsp;
-        <span className="text-sm">(USD)</span>
+        Total supply &amp; Total borrow
       </div>
       {loading || !data || data.length === 0 ? (
         <div>
@@ -115,14 +120,16 @@ const KashiPairDayDataChart = ({
           ></div>
         </div>
       ) : (
-        <HighchartsReact
-          highcharts={Highcharts}
-          constructorType={"stockChart"}
-          options={options}
-        />
+        <>
+          <HighchartsReact
+            highcharts={Highcharts}
+            constructorType={"stockChart"}
+            options={options}
+          />
+        </>
       )}
     </div>
   );
 };
 
-export default KashiPairDayDataChart;
+export default TotalDayDataChart;

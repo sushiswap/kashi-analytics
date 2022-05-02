@@ -174,7 +174,7 @@ const MarketTableRow = ({
     imgElement.src = "/icon-quiz.jpg";
   };
   return (
-    <Link href={`/markets/${data.symbol.toLowerCase()}`}>
+    <Link href={`/pair/${data.id}`}>
       <a className="w-full grid grid-cols-10 px-8 py-3 border-l-2 border-transparent border-t border-t-gray-200 hover:border-l-emerald-400 cursor-pointer items-center">
         <div className="col-span-2 items-center flex">
           <div>
@@ -199,7 +199,6 @@ const MarketTableRow = ({
             <div>
               {data.asset?.symbol}/{data.collateral?.symbol}
             </div>
-            <div className="text-gray-400 text-xs">{data.symbol}</div>
           </div>
         </div>
         <div className="col-span-2 text-right">

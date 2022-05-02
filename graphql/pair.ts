@@ -1,13 +1,8 @@
 import { gql } from "@apollo/client";
 
-export const getKashiPairsQuery = gql`
-  query GetPairs {
-    bentoBoxes {
-      totalTokens
-      totalKashiPairs
-      totalUsers
-    }
-    kashiPairs(first: 1000, orderBy: totalAssetElastic, orderDirection: desc) {
+export const getKashiPairQuery = gql`
+  query GetPair($id: String) {
+    kashiPairs(first: 1, where: { id: $id }) {
       id
       name
       symbol
@@ -24,23 +19,17 @@ export const getKashiPairsQuery = gql`
         decimals
       }
       exchangeRate
-      utilization
-      interestPerSecond
       totalAssetElastic
       totalAssetBase
       supplyAPR
       totalBorrowElastic
       totalBorrowBase
       borrowAPR
+      utilization
     }
-  }
-`;
-
-export const getKashiPairsDayDataQuery = gql`
-  query GetDataKashiPairsDayData($skip: Int) {
     kashiPairDayDatas(
       first: 1000
-      skip: $skip
+      where: { pair: $id }
       orderBy: date
       orderDirection: desc
     ) {

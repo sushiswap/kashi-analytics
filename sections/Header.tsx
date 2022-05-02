@@ -17,7 +17,7 @@ const Header = () => {
     <Disclosure as="nav" className="bg-black">
       {({ open }) => (
         <>
-          <div className="max-w-7xl mx-auto px-4">
+          <div className="container mx-auto px-4">
             <div className="relative flex items-center justify-between py-3">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}

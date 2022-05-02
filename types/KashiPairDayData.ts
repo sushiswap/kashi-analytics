@@ -17,8 +17,11 @@ export type KashiPairDayData = {
 };
 
 export type KashiPairDayDataMap = {
-  totalAssets: BigInt;
-  totalBorrows: BigInt;
+  totalAsset: BigInt;
+  totalBorrow: BigInt;
+  avgExchangeRate: BigInt;
+  avgUtilization: BigInt;
+  avgInterestPerSecond: BigInt;
   date: string;
   kashiPairs: KashiPairDayData[];
 };

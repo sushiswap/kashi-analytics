@@ -1,10 +1,10 @@
-import Highcharts from "highcharts/highstock";
-import HighchartsReact from "highcharts-react-official";
 import { BigNumber } from "ethers";
+import HighchartsReact from "highcharts-react-official";
+import Highcharts from "highcharts/highstock";
 import moment from "moment";
 import { KashiPairDayDataMap } from "../../../types/KashiPairDayData";
 
-const KashiPairCompareChart = ({
+const TotalCompareChart = ({
   loading,
   data,
 }: {
@@ -15,11 +15,11 @@ const KashiPairCompareChart = ({
     let seriesData: any[] = [];
     data.forEach((item) => {
       const percent =
-        BigNumber.from(item.totalBorrows)
+        BigNumber.from(item.totalBorrow)
           .mul(BigNumber.from("10000"))
           .div(
-            BigNumber.from(item.totalAssets).add(
-              BigNumber.from(item.totalBorrows)
+            BigNumber.from(item.totalAsset).add(
+              BigNumber.from(item.totalBorrow)
             )
           )
           .toNumber() / 100;
@@ -35,6 +35,9 @@ const KashiPairCompareChart = ({
         color: "#10b981",
         name: "Ratio",
         data: seriesData,
+        tooltip: {
+          pointFormat: "Ratio {point.y}%",
+        },
       },
     ];
   };
@@ -78,10 +81,9 @@ const KashiPairCompareChart = ({
   };
 
   return (
-    <div className="bg-white shadow-lg rounded">
+    <div className="bg-white shadow-lg rounded overflow-hidden">
       <div className="text-center text-lg font-medium pt-6">
-        Borrow vs Supply ratio&nbsp;
-        <span className="text-sm">(%)</span>
+        Borrow vs Supply ratio
       </div>
       {loading || !data || data.length === 0 ? (
         <div>
@@ -111,14 +113,16 @@ const KashiPairCompareChart = ({
           ></div>
         </div>
       ) : (
-        <HighchartsReact
-          highcharts={Highcharts}
-          constructorType={"stockChart"}
-          options={options}
-        />
+        <>
+          <HighchartsReact
+            highcharts={Highcharts}
+            constructorType={"stockChart"}
+            options={options}
+          />
+        </>
       )}
     </div>
   );
 };
 
-export default KashiPairCompareChart;
+export default TotalCompareChart;
