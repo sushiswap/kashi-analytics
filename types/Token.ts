@@ -3,6 +3,7 @@ export type Token = {
   name: string;
   symbol: string;
   decimals: BigInt;
+  totalSupply?: BigInt;
   totalSupplyElastic?: BigInt;
   totalSupplyBase?: BigInt;
   price?: BigInt;

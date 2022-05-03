@@ -283,7 +283,7 @@ const MarketTableRow = ({
   );
 };
 
-const MarketTable = ({
+const PairMarketTable = ({
   title = "All Markets",
   loading = false,
   data = [],
@@ -440,4 +440,4 @@ const MarketTable = ({
     </div>
   );
 };
-export default MarketTable;
+export default PairMarketTable;

@@ -5,6 +5,7 @@ import {
   KashiPairDayDataMap,
 } from "../../types/KashiPairDayData";
 import moment from "moment";
+import { Token } from "../../types/Token";
 
 class CalculateService {
   protected static instance: CalculateService;
@@ -15,6 +16,19 @@ class CalculateService {
 
     kashiPairs.forEach((kashiPair) => {
       const symbol = kashiPair.asset?.symbol || "";
+      const index = symbols.indexOf(symbol);
+      if (index === -1) {
+        symbols.push(symbol);
+      }
+    });
+    return symbols;
+  }
+
+  extractTokenSymbols(tokens: Token[]) {
+    const symbols = [] as string[];
+
+    tokens.forEach((token) => {
+      const symbol = token.symbol || "";
       const index = symbols.indexOf(symbol);
       if (index === -1) {
         symbols.push(symbol);
@@ -52,9 +66,31 @@ class CalculateService {
       return newKashiPair;
     });
     return {
-      totalAssets: sumTotalAsset,
-      totalBorrows: sumTotalBorrow,
+      totalAsset: sumTotalAsset,
+      totalBorrow: sumTotalBorrow,
       kashiPairs: newKashiPairs,
+    };
+  }
+
+  calculateTokenPrices(tokens: Token[], pricesMap: { [key: string]: BigInt }) {
+    let sumTotalSupply = BigNumber.from("0");
+
+    const newTokens = tokens.map((token) => {
+      let totalSupply = BigNumber.from("0");
+      totalSupply = BigNumber.from(pricesMap[token.symbol])
+        .mul(BigNumber.from(token.totalSupplyElastic))
+        .div(BigNumber.from("10").pow(Number(token.decimals) + 6));
+      sumTotalSupply = sumTotalSupply.add(totalSupply);
+      const newToken = {
+        ...token,
+        price: pricesMap[token.symbol] || 0,
+        totalSupply: totalSupply.toBigInt(),
+      };
+      return newToken;
+    });
+    return {
+      totalSupply: sumTotalSupply,
+      tokens: newTokens,
     };
   }
 
@@ -164,8 +200,8 @@ class CalculateService {
     });
 
     return {
-      totalAssets: sumTotalAsset.toBigInt(),
-      totalBorrows: sumTotalBorrow.toBigInt(),
+      totalAsset: sumTotalAsset.toBigInt(),
+      totalBorrow: sumTotalBorrow.toBigInt(),
       kashiPairs: newKashiPairs,
       kashiPairsMap,
     };

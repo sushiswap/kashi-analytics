@@ -2,17 +2,17 @@ import { Disclosure } from "@headlessui/react";
 import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { HiOutlineMenu, HiX } from "react-icons/hi";
 import Button from "../components/base/Buttons/Button";
 
 const navigation = [
-  { name: "Explore", href: "/explore", current: true },
-  { name: "Governance", href: "/governamce", current: false },
-  { name: "Prices", href: "/prices", current: false },
-  { name: "Docs", href: "/docs", current: false },
+  { name: "Dashboard", href: "/", current: true },
+  { name: "Explore", href: "/explore", current: false },
 ];
 
 const Header = () => {
+  const router = useRouter();
   return (
     <Disclosure as="nav" className="bg-black">
       {({ open }) => (
@@ -47,21 +47,24 @@ const Header = () => {
                     </a>
                   </Link>
                 </div>
-                {/* <div className="hidden sm:block mx-auto">
+                <div className="hidden sm:block mx-auto">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
                       <Link href={item.href} key={item.name}>
                         <a
-                          className={classNames(
-                            "transition-colors text-white hover:text-emerald-300 px-2 py-2 rounded-md font-medium"
-                          )}
+                          className={classNames({
+                            "border-b-2 transition-colors text-white hover:text-emerald-300 mx-2 py-2 font-medium":
+                              true,
+                            "border-emerald-400": router.pathname === item.href,
+                            "border-transparent": router.pathname !== item.href,
+                          })}
                         >
                           {item.name}
                         </a>
                       </Link>
                     ))}
                   </div>
-                </div> */}
+                </div>
               </div>
               {/* <div className="absolute inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6">
                 <Button rounded="sm">App</Button>
@@ -70,21 +73,30 @@ const Header = () => {
           </div>
 
           <Disclosure.Panel className="sm:hidden">
-            {/* <div className="px-2 pt-2 pb-3 space-y-1">
+            <div className="px-2 pt-2 pb-3 space-y-1">
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
                   as="a"
                   href={item.href}
-                  className={classNames(
-                    "text-gray-300 hover:bg-emerald-400 hover:text-white transition-colors",
-                    "block px-3 py-2 rounded-md text-base font-medium"
-                  )}
+                  className={classNames({
+                    "text-gray-300 hover:bg-emerald-400 rounded hover:text-white transition-colors":
+                      true,
+                    "block px-3 py-2 text-base font-medium": true,
+                  })}
                 >
-                  {item.name}
+                  <span
+                    className={classNames({
+                      "border-b-2": true,
+                      "border-emerald-400": router.pathname === item.href,
+                      "border-transparent": router.pathname !== item.href,
+                    })}
+                  >
+                    {item.name}
+                  </span>
                 </Disclosure.Button>
               ))}
-            </div> */}
+            </div>
           </Disclosure.Panel>
         </>
       )}

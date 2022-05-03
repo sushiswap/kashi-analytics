@@ -64,26 +64,6 @@ const TotalDayDataChart = ({
     series: getSeries(),
     rangeSelector: {
       selected: 0,
-      buttons: [
-        {
-          type: "month",
-          count: 1,
-          text: "1m",
-          title: "View 1 month",
-        },
-        {
-          type: "month",
-          count: 3,
-          text: "3m",
-          title: "View 3 months",
-        },
-        {
-          type: "month",
-          count: 6,
-          text: "6m",
-          title: "View 6 months",
-        },
-      ],
     },
   };
 

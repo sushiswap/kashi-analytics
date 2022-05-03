@@ -112,8 +112,8 @@ const Home: NextPage = () => {
     setPricesMap(pricesMap);
 
     const {
-      totalAssets: totalAssetsValue,
-      totalBorrows: totalBorrowsValue,
+      totalAsset: totalAssetsValue,
+      totalBorrow: totalBorrowsValue,
       kashiPairs: newKashiPairs,
     } = calculateService.calculateKashiPairPrices(kashiPairsData, pricesMap);
 
@@ -237,7 +237,7 @@ const Home: NextPage = () => {
           }}
         />
         <Charts data={kashiPairsDayData} loading={loadingDayData} />
-        <Market data={kashiPairs} loading={loading} />
+        <Market data={kashiPairs} loading={loading || calculating} />
       </BaseLayout>
     </>
   );
