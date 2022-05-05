@@ -4,6 +4,7 @@ import CoinGeckoService from "../services/data/CoinGeckoService";
 import { DataService } from "../services/data/DataTypes";
 import RestDataService from "../services/data/RestDataService";
 import CalculateService from "../services/utils/CalculateService";
+import TokenUtilService from "../services/utils/TokenUtilService";
 import Reducer, { initialState } from "../stores/reducer";
 import { ActionValues, State } from "../stores/types";
 
@@ -12,6 +13,7 @@ interface AppContextProps {
   dataService: DataService;
   coinGeckoService: CoinGeckoService;
   calculateService: CalculateService;
+  tokenUtilService: TokenUtilService;
 }
 const AppContext = createContext<AppContextProps>({} as AppContextProps);
 
@@ -20,6 +22,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   const dataService = RestDataService(API_URL);
   const coinGeckoService = CoinGeckoService.getInstance();
   const calculateService = CalculateService.getInstance();
+  const tokenUtilService = TokenUtilService.getInstance();
 
   return (
     <AppContext.Provider
@@ -28,6 +31,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
         dataService,
         coinGeckoService,
         calculateService,
+        tokenUtilService,
       }}
     >
       {children}
@@ -57,4 +61,9 @@ export const useCoingeckoService = () => {
 export const useCalculateService = () => {
   const { calculateService } = useAppContext();
   return calculateService;
+};
+
+export const useTokenUtilService = () => {
+  const { tokenUtilService } = useAppContext();
+  return tokenUtilService;
 };

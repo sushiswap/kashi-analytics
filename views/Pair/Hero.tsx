@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import { useAppContext } from "../../context/AppContext";
 import { KashiPair } from "../../types/KashiPair";
 
 const Hero = ({ data }: { data?: KashiPair }) => {
@@ -6,6 +7,8 @@ const Hero = ({ data }: { data?: KashiPair }) => {
     const imgElement = event.target as HTMLImageElement;
     imgElement.src = "/icon-quiz.jpg";
   };
+
+  const { tokenUtilService } = useAppContext();
 
   return (
     <div className="bg-black">
@@ -26,15 +29,15 @@ const Hero = ({ data }: { data?: KashiPair }) => {
           <div className="col-span-2 items-center flex">
             <div>
               <img
-                src={`https://raw.githubusercontent.com/sushiswap/icons/master/token/${data?.asset?.symbol.toLowerCase()}.jpg`}
+                src={tokenUtilService.logo(data?.asset?.symbol)}
                 width="30px"
                 height="30px"
                 className="inline-block rounded-full"
                 onError={handleLogoError}
-                alt={data?.symbol}
+                alt={tokenUtilService.symbol(data?.symbol)}
               />
               <img
-                src={`https://raw.githubusercontent.com/sushiswap/icons/master/token/${data?.collateral?.symbol.toLowerCase()}.jpg`}
+                src={tokenUtilService.logo(data?.collateral?.symbol)}
                 width="30px"
                 height="30px"
                 onError={handleLogoError}
@@ -44,7 +47,8 @@ const Hero = ({ data }: { data?: KashiPair }) => {
             </div>
             <div className="ml-2">
               <h2 className="text-white text-3xl font-medium">
-                {data?.asset?.symbol}/{data?.collateral?.symbol}
+                {tokenUtilService.symbol(data?.asset?.symbol)}/
+                {tokenUtilService.symbol(data?.collateral?.symbol)}
               </h2>
             </div>
           </div>

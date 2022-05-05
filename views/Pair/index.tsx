@@ -49,7 +49,7 @@ const Pair: NextPage = () => {
       kashiPairDayDatas,
     }: { kashiPairs: KashiPair[]; kashiPairDayDatas: KashiPairDayData[] } =
       dataKashiPairs;
-    const symbols = calculateService.extractAssetSymbols(kashiPairs);
+    const symbols = calculateService.extractKashiPairAssetSymbols(kashiPairs);
     const pricesMap = await coinGeckoService.getPrices(symbols);
     setPricesMap(pricesMap);
 

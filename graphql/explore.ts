@@ -19,3 +19,39 @@ export const getTokensQuery = gql`
     }
   }
 `;
+
+export const getKashiPairsQuery = gql`
+  query GetPairs {
+    bentoBoxes {
+      totalTokens
+      totalKashiPairs
+      totalUsers
+    }
+    kashiPairs(first: 1000) {
+      id
+      name
+      symbol
+      asset {
+        id
+        name
+        symbol
+        decimals
+      }
+      collateral {
+        id
+        name
+        symbol
+        decimals
+      }
+      exchangeRate
+      utilization
+      interestPerSecond
+      totalAssetElastic
+      totalAssetBase
+      supplyAPR
+      totalBorrowElastic
+      totalBorrowBase
+      borrowAPR
+    }
+  }
+`;

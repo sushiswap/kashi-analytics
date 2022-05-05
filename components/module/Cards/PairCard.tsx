@@ -9,8 +9,6 @@ const PairCard = ({
 }: {
   containerClass?: string;
   data?: KashiPair;
-  borrow?: "borrow" | "asset" | "supply";
-  loading?: boolean;
 }) => {
   return (
     <div

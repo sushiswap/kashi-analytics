@@ -1,27 +1,59 @@
 import { BigNumber } from "ethers";
+import moment from "moment";
 import { KashiPair } from "../../types/KashiPair";
 import {
   KashiPairDayData,
   KashiPairDayDataMap,
 } from "../../types/KashiPairDayData";
-import moment from "moment";
 import { Token } from "../../types/Token";
 
 class CalculateService {
   protected static instance: CalculateService;
   constructor() {}
 
-  extractAssetSymbols(kashiPairs: KashiPair[]) {
+  protected extractKashiPairTokenSymbols(
+    kashiPairs: KashiPair[],
+    tokenField: "asset" | "collateral" = "asset"
+  ) {
     const symbols = [] as string[];
 
     kashiPairs.forEach((kashiPair) => {
-      const symbol = kashiPair.asset?.symbol || "";
+      const symbol = kashiPair[tokenField]?.symbol || "";
+
       const index = symbols.indexOf(symbol);
       if (index === -1) {
         symbols.push(symbol);
       }
     });
     return symbols;
+  }
+
+  extractKashiPairSymbols(kashiPairs: KashiPair[]) {
+    const symbols = [] as string[];
+
+    kashiPairs.forEach((kashiPair) => {
+      const symbolAsset = kashiPair.asset?.symbol || "";
+      const symbolCollateral = kashiPair.collateral?.symbol || "";
+
+      const indexAsset = symbols.indexOf(symbolAsset);
+      if (indexAsset === -1) {
+        symbols.push(symbolAsset);
+      }
+
+      const indexCollateral = symbols.indexOf(symbolCollateral);
+      if (indexCollateral === -1) {
+        symbols.push(symbolCollateral);
+      }
+    });
+    return symbols;
+  }
+
+  extractKashiPairCollateralSymbols(kashiPairs: KashiPair[]) {
+    return this.extractKashiPairTokenSymbols(kashiPairs, "collateral");
+  }
+
+  extractKashiPairAssetSymbols(kashiPairs: KashiPair[]) {
+    return this.extractKashiPairTokenSymbols(kashiPairs, "asset");
   }
 
   extractTokenSymbols(tokens: Token[]) {

@@ -5,7 +5,7 @@ import numeral from "numeral";
 import React, { useEffect, useState } from "react";
 import { FaSortDown, FaSortUp } from "react-icons/fa";
 import InfiniteScroll from "react-infinite-scroller";
-import { KashiPair } from "../../../types/KashiPair";
+import { useAppContext } from "../../../context/AppContext";
 import { Token } from "../../../types/Token";
 
 type OrderBy = "symbol" | "totalSupply" | "";
@@ -78,13 +78,14 @@ const MarketTableRow = ({ data, index }: { data: Token; index: number }) => {
     const imgElement = event.target as HTMLImageElement;
     imgElement.src = "/icon-quiz.jpg";
   };
+  const { tokenUtilService } = useAppContext();
   return (
     <Link href={`/token/${data.id}`}>
       <a className="w-full grid grid-cols-3 px-8 py-3 border-l-2 border-transparent border-t border-t-gray-200 hover:border-l-emerald-400 cursor-pointer items-center">
         <div className="col-span-1 items-center flex">
           <div>
             <img
-              src={`https://raw.githubusercontent.com/sushiswap/icons/master/token/${data.symbol.toLowerCase()}.jpg`}
+              src={tokenUtilService.logo(data.symbol)}
               width="30px"
               height="30px"
               className="inline-block rounded-full"
@@ -93,7 +94,7 @@ const MarketTableRow = ({ data, index }: { data: Token; index: number }) => {
             />
           </div>
           <div className="ml-2">
-            <div>{data.symbol}</div>
+            <div>{tokenUtilService.symbol(data.symbol)}</div>
           </div>
         </div>
         <div className="col-span-2 text-right">

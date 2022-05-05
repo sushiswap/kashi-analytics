@@ -5,55 +5,37 @@ import Highcharts from "highcharts/highstock";
 import moment from "moment";
 import { KashiPairDayDataMap } from "../../../types/KashiPairDayData";
 
-const AttributesByType = {
-  supply: {
-    color: "#10b981",
-    valueFunc: (item: KashiPairDayDataMap) => ({
-      x: moment(item.date).valueOf(),
-      y:
-        BigNumber.from(item.totalAsset)
-          .add(BigNumber.from(item.totalBorrow))
-          .toNumber() / 100.0,
-    }),
-    tooltip: {
-      pointFormat: "Supply&nbsp;&nbsp; ${point.y}",
-    },
-  },
-  borrow: {
-    color: "#a855f7",
-    valueFunc: (item: KashiPairDayDataMap) => ({
-      x: moment(item.date).valueOf(),
-      y: BigNumber.from(item.totalBorrow).toNumber() / 100.0,
-    }),
-    tooltip: {
-      pointFormat: "Borrow&nbsp;&nbsp; ${point.y}",
-    },
-  },
-};
-
-const PairSupplyBorrowDayDataChart = ({
-  type = "supply",
+const PairSupplyAccruedInterestDayDataChart = ({
   containerClass = "",
-  title = "Deposit",
+  title = "Accrued interest",
   data,
 }: {
-  type?: "supply" | "borrow";
   containerClass?: string;
   title?: string;
   data?: KashiPairDayDataMap[];
 }) => {
   const getSeries = () => {
     let seriesData: any[] = [];
-    const attribute = AttributesByType[type];
+    const valueFunc = (item: KashiPairDayDataMap) => ({
+      x: moment(item.date).valueOf(),
+      y:
+        BigNumber.from(item.totalBorrow)
+          .mul(BigNumber.from(item.avgInterestPerSecond))
+          .mul(3600 * 24)
+          .div(BigNumber.from(10).pow(18))
+          .toNumber() / 100.0,
+    });
     data?.forEach((item) => {
-      seriesData.push(attribute.valueFunc(item));
+      seriesData.push(valueFunc(item));
     });
     return [
       {
-        type: "area",
-        color: attribute.color,
+        type: "line",
+        color: "#10b981",
         data: seriesData,
-        tooltip: attribute.tooltip,
+        tooltip: {
+          pointFormat: "Accrued interest &nbsp;&nbsp; ${point.y}",
+        },
       },
     ];
   };
@@ -150,4 +132,4 @@ const PairSupplyBorrowDayDataChart = ({
   );
 };
 
-export default PairSupplyBorrowDayDataChart;
+export default PairSupplyAccruedInterestDayDataChart;

@@ -20,9 +20,8 @@ const PairUtilizationDayDataChart = ({
       utilizationData.push({
         x: moment(item.date).valueOf(),
         y:
-          BigNumber.from(item.avgUtilization)
-            .div("100000000000000")
-            .toNumber() / 100.0,
+          BigNumber.from(item.avgUtilization).div(BigInt(1e14)).toNumber() /
+          1e2,
       });
     });
     return [
@@ -52,7 +51,33 @@ const PairUtilizationDayDataChart = ({
     },
     series: getSeries(),
     rangeSelector: {
-      selected: 0,
+      buttons: [
+        {
+          type: "week",
+          count: 1,
+          text: "1w",
+          title: "View 1 week",
+        },
+        {
+          type: "month",
+          count: 1,
+          text: "1m",
+          title: "View 1 month",
+        },
+        {
+          type: "month",
+          count: 3,
+          text: "3m",
+          title: "View 3 months",
+        },
+        {
+          type: "month",
+          count: 6,
+          text: "6m",
+          title: "View 6 months",
+        },
+      ],
+      selected: 1,
     },
   };
 

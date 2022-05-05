@@ -1,3 +1,3 @@
-import Pair from "../../views/Pair";
+import Token from "../../views/Token";
 
-export default Pair;
+export default Token;

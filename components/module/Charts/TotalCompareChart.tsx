@@ -55,7 +55,33 @@ const TotalCompareChart = ({
       enabled: false,
     },
     rangeSelector: {
-      selected: 0,
+      buttons: [
+        {
+          type: "week",
+          count: 1,
+          text: "1w",
+          title: "View 1 week",
+        },
+        {
+          type: "month",
+          count: 1,
+          text: "1m",
+          title: "View 1 month",
+        },
+        {
+          type: "month",
+          count: 3,
+          text: "3m",
+          title: "View 3 months",
+        },
+        {
+          type: "month",
+          count: 6,
+          text: "6m",
+          title: "View 6 months",
+        },
+      ],
+      selected: 1,
     },
     series: getSeries(),
   };

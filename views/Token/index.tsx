@@ -5,18 +5,23 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useAppContext } from "../../context/AppContext";
-import { getKashiPairQuery } from "../../graphql/pair";
+import { getTokensQuery } from "../../graphql/token";
 import { KashiPair } from "../../types/KashiPair";
 import {
   KashiPairDayData,
   KashiPairDayDataMap,
 } from "../../types/KashiPairDayData";
+import { Token } from "../../types/Token";
 import BaseLayout from "../Layouts/BaseLayout";
 import Hero from "./Hero";
 import Market from "./Market";
 
 const Token: NextPage = () => {
-  const [kashiPair, setKashiPair] = useState<KashiPair | undefined>();
+  const [token, setToken] = useState<Token | undefined>();
+  const [totalAsset, setTotalAsset] = useState<BigInt>(BigInt(0));
+  const [totalBorrow, setTotalBorrow] = useState<BigInt>(BigInt(0));
+
+  const [kashiPairs, setKashiPairs] = useState<KashiPair[]>([]);
   const [kashiPairDayData, setKashiPairDayData] = useState<
     KashiPairDayDataMap[]
   >([]);
@@ -26,10 +31,10 @@ const Token: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const {
-    loading: loadingKashiPairs,
+    // loading: loadingDataToken,
     error,
-    data: dataKashiPairs,
-  } = useQuery(getKashiPairQuery, { variables: { id }, skip: !id });
+    data: dataToken,
+  } = useQuery(getTokensQuery, { variables: { id }, skip: !id });
 
   useEffect(() => {
     if (error) {
@@ -38,47 +43,61 @@ const Token: NextPage = () => {
   }, [error]);
 
   useEffect(() => {
-    if (dataKashiPairs) {
-      setKashiPairData();
+    if (dataToken) {
+      setTokenData();
     }
-  }, [dataKashiPairs]);
+  }, [dataToken]);
 
-  const setKashiPairData = async () => {
-    const {
-      kashiPairs,
-      kashiPairDayDatas,
-    }: { kashiPairs: KashiPair[]; kashiPairDayDatas: KashiPairDayData[] } =
-      dataKashiPairs;
-    const symbols = calculateService.extractAssetSymbols(kashiPairs);
+  const setTokenData = async () => {
+    const { tokens, kashiPairs }: { tokens: Token[]; kashiPairs: KashiPair[] } =
+      dataToken;
+    const symbols = calculateService.extractKashiPairAssetSymbols(kashiPairs);
     const pricesMap = await coinGeckoService.getPrices(symbols);
     setPricesMap(pricesMap);
 
-    const { kashiPairs: newKashiPairs } =
-      calculateService.calculateKashiPairPrices(kashiPairs, pricesMap);
-
-    const kashiPair = newKashiPairs[0];
-    setKashiPair(kashiPair);
-
-    const { kashiPairsMap } = calculateService.calculateKashiPairDayDataPrices(
-      kashiPairDayDatas,
+    const { tokens: newTokens } = calculateService.calculateTokenPrices(
+      tokens,
       pricesMap
     );
-    console.log(dataKashiPairs);
-    setKashiPairDayData(kashiPairsMap);
+
+    const token = newTokens[0];
+    setToken(token);
+
+    const {
+      kashiPairs: newKashiPairs,
+      totalAsset,
+      totalBorrow,
+    } = calculateService.calculateKashiPairPrices(kashiPairs, pricesMap);
+
+    console.log(
+      "totalAsset",
+      pricesMap,
+      kashiPairs,
+      totalAsset.toNumber() / 100,
+      totalBorrow.toNumber() / 100
+    );
+
+    setTotalAsset(totalAsset.toBigInt());
+    setTotalBorrow(totalBorrow.toBigInt());
+    setKashiPairs(newKashiPairs);
   };
 
   return (
     <>
       <Head>
         <title>
-          {kashiPair
-            ? `Kashi Market - ${kashiPair?.asset?.symbol}/${kashiPair?.collateral?.symbol}`
-            : "Kashi Market"}
+          {token ? `Kashi Market - ${token?.symbol}` : "Kashi Market"}
         </title>
       </Head>
       <BaseLayout>
-        <Hero data={kashiPair} />
-        <Market kashiPair={kashiPair} kashiPairDayData={kashiPairDayData} />
+        <Hero data={token} />
+        <Market
+          token={token}
+          totalAsset={totalAsset}
+          totalBorrow={totalBorrow}
+          kashiPairs={kashiPairs}
+          kashiPairDayData={kashiPairDayData}
+        />
       </BaseLayout>
     </>
   );

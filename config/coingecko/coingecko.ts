@@ -26,6 +26,7 @@ export const COINGECKO = {
     FRAX: "frax",
     FTM: "fantom",
     "FTX Token": "ftx-token",
+    FTT: "ftx-token",
     GRT: "the-graph",
     HEGIC: "hegic",
     HUSD: "husd",
