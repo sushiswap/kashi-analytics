@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useReducer } from "react";
+import React, { createContext, ReactNode, useContext, useReducer } from "react";
 import { API_URL } from "../config/constants";
 import CoinGeckoService from "../services/data/CoinGeckoService";
 import { DataService } from "../services/data/DataTypes";
@@ -8,9 +8,14 @@ import TokenUtilService from "../services/utils/TokenUtilService";
 import Reducer, { initialState } from "../stores/reducer";
 import { ActionValues, State } from "../stores/types";
 
+export const handleLogoError = (event: React.SyntheticEvent) => {
+  const imgElement = event.target as HTMLImageElement;
+  imgElement.src = "/icon-quiz.jpg";
+};
 interface AppContextProps {
   store: [State, React.Dispatch<ActionValues>];
   dataService: DataService;
+  handleLogoError: (event: React.SyntheticEvent) => void;
   coinGeckoService: CoinGeckoService;
   calculateService: CalculateService;
   tokenUtilService: TokenUtilService;
@@ -32,6 +37,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
         coinGeckoService,
         calculateService,
         tokenUtilService,
+        handleLogoError,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import { useApolloClient, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { BigNumber } from "ethers";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -46,24 +46,6 @@ const Home: NextPage = () => {
     data: dataKashiPairsDayData2,
   } = useQuery(getKashiPairsDayDataQuery, { variables: { skip: 2000 } });
 
-  // const {
-  //   loading: loadingKashiPairsDayData3,
-  //   error: errorKashiPairsDayData3,
-  //   data: dataKashiPairsDayData3,
-  // } = useQuery(getKashiPairsDayDataQuery, { variables: { skip: 3000 } });
-
-  // const {
-  //   loading: loadingKashiPairsDayData4,
-  //   error: errorKashiPairsDayData4,
-  //   data: dataKashiPairsDayData4,
-  // } = useQuery(getKashiPairsDayDataQuery, { variables: { skip: 4000 } });
-
-  // const {
-  //   loading: loadingKashiPairsDayData5,
-  //   error: errorKashiPairsDayData5,
-  //   data: dataKashiPairsDayData5,
-  // } = useQuery(getKashiPairsDayDataQuery, { variables: { skip: 5000 } });
-
   const [kashiPairsDayData, setKashiPairsDayData] = useState<
     KashiPairDayDataMap[]
   >([]);
@@ -90,10 +72,7 @@ const Home: NextPage = () => {
     loading ||
     loadingKashiPairsDayData0 ||
     loadingKashiPairsDayData1 ||
-    loadingKashiPairsDayData2; // ||
-  // loadingKashiPairsDayData3 ||
-  // loadingKashiPairsDayData4 ||
-  // loadingKashiPairsDayData5;
+    loadingKashiPairsDayData2;
 
   useEffect(() => {
     if (dataKashiPairs) {
@@ -107,7 +86,8 @@ const Home: NextPage = () => {
   }, [dataKashiPairs]);
 
   const setKashiPairsData = async (kashiPairsData: KashiPair[]) => {
-    const symbols = calculateService.extractKashiPairAssetSymbols(kashiPairsData);
+    const symbols =
+      calculateService.extractKashiPairAssetSymbols(kashiPairsData);
     const pricesMap = await coinGeckoService.getPrices(symbols);
     setPricesMap(pricesMap);
 
@@ -164,18 +144,12 @@ const Home: NextPage = () => {
       !calculating &&
       !loadingKashiPairsDayData0 &&
       !loadingKashiPairsDayData1 &&
-      !loadingKashiPairsDayData2 /* &&
-       /!loadingKashiPairsDayData3 &&
-       /!loadingKashiPairsDayData4 &&
-       /!loadingKashiPairsDayData5 */
+      !loadingKashiPairsDayData2
     ) {
       const dataKashiPairsDayDataMap = [
         dataKashiPairsDayData0,
         dataKashiPairsDayData1,
         dataKashiPairsDayData2,
-        // dataKashiPairsDayData3,
-        // dataKashiPairsDayData4,
-        // dataKashiPairsDayData5,
       ];
 
       const dataKashiPairsDayData = dataKashiPairsDayDataMap.reduce(
@@ -190,7 +164,7 @@ const Home: NextPage = () => {
         ],
         []
       );
-      const { kashiPairsMap } =
+      const { kashiPairsMaps: kashiPairsMap } =
         calculateService.calculateKashiPairDayDataPrices(
           dataKashiPairsDayData,
           pricesMap
@@ -203,9 +177,6 @@ const Home: NextPage = () => {
     loadingKashiPairsDayData0,
     loadingKashiPairsDayData1,
     loadingKashiPairsDayData2,
-    // loadingKashiPairsDayData3,
-    // loadingKashiPairsDayData4,
-    // loadingKashiPairsDayData5,
   ]);
 
   return (

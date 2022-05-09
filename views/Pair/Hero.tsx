@@ -3,30 +3,25 @@ import { useAppContext } from "../../context/AppContext";
 import { KashiPair } from "../../types/KashiPair";
 
 const Hero = ({ data }: { data?: KashiPair }) => {
-  const handleLogoError = (event: React.SyntheticEvent) => {
-    const imgElement = event.target as HTMLImageElement;
-    imgElement.src = "/icon-quiz.jpg";
-  };
-
-  const { tokenUtilService } = useAppContext();
+  const { tokenUtilService, handleLogoError } = useAppContext();
 
   return (
     <div className="bg-black">
-      <div className="container px-4 mx-auto py-24">
+      <div className="container px-4 py-24 mx-auto">
         {!data ? (
-          <div className="col-span-2 items-center flex">
+          <div className="flex items-center col-span-2">
             <div>
-              <div className="inline-block loading-black h-8 w-8 rounded-full"></div>
-              <div className="-ml-2 inline-block loading-black h-8 w-8 rounded-full"></div>
+              <div className="inline-block w-8 h-8 rounded-full loading-black"></div>
+              <div className="inline-block w-8 h-8 -ml-2 rounded-full loading-black"></div>
             </div>
             <div className="ml-2">
               <div>
-                <div className="inline-block loading-black h-8 w-40 rounded"></div>
+                <div className="inline-block w-40 h-8 rounded loading-black"></div>
               </div>
             </div>
           </div>
         ) : (
-          <div className="col-span-2 items-center flex">
+          <div className="flex items-center col-span-2">
             <div>
               <img
                 src={tokenUtilService.logo(data?.asset?.symbol)}
@@ -46,7 +41,7 @@ const Hero = ({ data }: { data?: KashiPair }) => {
               />
             </div>
             <div className="ml-2">
-              <h2 className="text-white text-3xl font-medium">
+              <h2 className="text-3xl font-medium text-white">
                 {tokenUtilService.symbol(data?.asset?.symbol)}/
                 {tokenUtilService.symbol(data?.collateral?.symbol)}
               </h2>

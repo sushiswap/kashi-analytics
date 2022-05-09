@@ -11,20 +11,20 @@ const Hero = ({ data: token }: { data?: Token }) => {
 
   return (
     <div className="bg-black">
-      <div className="container px-4 mx-auto py-24">
+      <div className="container px-4 py-24 mx-auto">
         {!token ? (
-          <div className="col-span-2 items-center flex">
+          <div className="flex items-center col-span-2">
             <div>
-              <div className="inline-block loading-black h-8 w-8 rounded-full"></div>
+              <div className="inline-block w-8 h-8 rounded-full loading-black"></div>
             </div>
             <div className="ml-2">
               <div>
-                <div className="inline-block loading-black h-8 w-40 rounded"></div>
+                <div className="inline-block w-40 h-8 rounded loading-black"></div>
               </div>
             </div>
           </div>
         ) : (
-          <div className="col-span-2 items-center flex">
+          <div className="flex items-center col-span-2">
             <div>
               <img
                 src={tokenUtilService.logo(token?.symbol)}
@@ -36,7 +36,7 @@ const Hero = ({ data: token }: { data?: Token }) => {
               />
             </div>
             <div className="ml-2">
-              <h2 className="text-white text-3xl font-medium">
+              <h2 className="text-3xl font-medium text-white">
                 {tokenUtilService.symbol(token?.symbol)}
               </h2>
             </div>

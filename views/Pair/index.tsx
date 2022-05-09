@@ -59,7 +59,7 @@ const Pair: NextPage = () => {
     const kashiPair = newKashiPairs[0];
     setKashiPair(kashiPair);
 
-    const { kashiPairsMap } = calculateService.calculateKashiPairDayDataPrices(
+    const { kashiPairsMaps: kashiPairsMap } = calculateService.calculateKashiPairDayDataPrices(
       kashiPairDayDatas,
       pricesMap
     );

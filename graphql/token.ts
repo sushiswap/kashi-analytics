@@ -48,10 +48,10 @@ export const getTokensQuery = gql`
 `;
 
 export const getKashiPairsDayDataQuery = gql`
-  query GetDataKashiPairsDayData($pair: String, $skip: Int) {
+  query GetDataKashiPairsDayData($pairIds: [String], $skip: Int) {
     kashiPairDayDatas(
       first: 1000
-      where: { pair: $pair }
+      where: { pair_in: $pairIds }
       orderBy: date
       orderDirection: desc
     ) {

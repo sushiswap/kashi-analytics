@@ -27,7 +27,7 @@ export type KashiPairDayDataMap = {
   kashiPairs: KashiPairDayData[];
 };
 
-export type KashiPairDayDataMapCollateral = {
+export type KashiPairDayDataMapsCollateral = {
   collateral: Token;
-  kashiPairsMap: KashiPairDayDataMap;
+  kashiPairsMaps: KashiPairDayDataMap[];
 };

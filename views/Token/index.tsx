@@ -5,12 +5,12 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useAppContext } from "../../context/AppContext";
-import { getTokensQuery } from "../../graphql/token";
+import { getKashiPairsDayDataQuery, getTokensQuery } from "../../graphql/token";
 import { KashiPair } from "../../types/KashiPair";
 import {
   KashiPairDayData,
   KashiPairDayDataMap,
-  KashiPairDayDataMapCollateral,
+  KashiPairDayDataMapsCollateral,
 } from "../../types/KashiPairDayData";
 import { Token } from "../../types/Token";
 import BaseLayout from "../Layouts/BaseLayout";
@@ -23,19 +23,30 @@ const Token: NextPage = () => {
   const [totalBorrow, setTotalBorrow] = useState<BigInt>(BigInt(0));
 
   const [kashiPairs, setKashiPairs] = useState<KashiPair[]>([]);
-  const [kashiPairDayData, setKashiPairDayData] = useState<
-    KashiPairDayDataMapCollateral[]
+  const [kashiPairDayDataMaps, setKashiPairDayDataMaps] = useState<
+    KashiPairDayDataMap[]
   >([]);
+
+  const [kashiPairDayDataMapsCollaterals, setKashiPairDayDataMapsCollaterals] =
+    useState<KashiPairDayDataMapsCollateral[]>([]);
   const [pricesMap, setPricesMap] = useState<{ [key: string]: BigInt }>({});
   const { calculateService, coinGeckoService } = useAppContext();
 
   const router = useRouter();
   const { id } = router.query;
   const {
-    // loading: loadingDataToken,
+    loading: loadingDataToken,
     error,
     data: dataToken,
   } = useQuery(getTokensQuery, { variables: { id }, skip: !id });
+
+  const pairIds = kashiPairs.map((kashiPair) => kashiPair.id);
+
+  const { loading: loadingKashiPairDayData, data: dataKashiPairDayData } =
+    useQuery(getKashiPairsDayDataQuery, {
+      variables: { pairIds },
+      skip: pairIds.length === 0,
+    });
 
   useEffect(() => {
     if (error) {
@@ -48,6 +59,29 @@ const Token: NextPage = () => {
       setTokenData();
     }
   }, [dataToken]);
+
+  useEffect(() => {
+    const pricesMapKeys = Object.keys(pricesMap);
+    if (
+      pricesMapKeys.length > 0 &&
+      dataKashiPairDayData &&
+      dataKashiPairDayData.kashiPairDayDatas.length > 0
+    ) {
+      const kashiPairDayDataMapsCollaterals =
+        calculateService.calculateKashiPairDayDataPricesByCollateral(
+          dataKashiPairDayData.kashiPairDayDatas,
+          pricesMap
+        );
+
+      const { kashiPairsMaps } =
+        calculateService.calculateKashiPairDayDataPrices(
+          dataKashiPairDayData.kashiPairDayDatas,
+          pricesMap
+        );
+      setKashiPairDayDataMapsCollaterals(kashiPairDayDataMapsCollaterals);
+      setKashiPairDayDataMaps(kashiPairsMaps);
+    }
+  }, [pricesMap, dataKashiPairDayData]);
 
   const setTokenData = async () => {
     const { tokens, kashiPairs }: { tokens: Token[]; kashiPairs: KashiPair[] } =
@@ -89,6 +123,8 @@ const Token: NextPage = () => {
           totalAsset={totalAsset}
           totalBorrow={totalBorrow}
           kashiPairs={kashiPairs}
+          kashiPairDayDataMaps={kashiPairDayDataMaps}
+          kashiPairDayDataMapsCollaterals={kashiPairDayDataMapsCollaterals}
         />
       </BaseLayout>
     </>

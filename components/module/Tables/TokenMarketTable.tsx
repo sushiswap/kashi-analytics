@@ -26,7 +26,7 @@ const MarketTableHead = ({
   };
 
   return (
-    <div className="w-full grid grid-cols-3 px-8 py-2 text-sm text-slate-400">
+    <div className="grid w-full grid-cols-3 px-8 py-2 text-sm text-slate-400">
       <div
         className="col-span-1 cursor-pointer"
         onClick={() => {
@@ -51,38 +51,34 @@ const MarketTableHead = ({
 };
 
 const MarketTableRowLoading = () => (
-  <div className="w-full grid grid-cols-3 px-8 py-3 border-l-2 border-transparent border-t border-t-gray-200 hover:border-l-emerald-400 cursor-pointer items-center">
-    <div className="col-span-1 items-center flex">
+  <div className="grid items-center w-full grid-cols-3 px-8 py-3 border-t border-l-2 border-transparent cursor-pointer border-t-gray-200 hover:border-l-emerald-400">
+    <div className="flex items-center col-span-1">
       <div>
-        <div className="inline-block loading h-8 w-8 rounded-full"></div>
+        <div className="inline-block w-8 h-8 rounded-full loading"></div>
       </div>
       <div className="ml-2">
         <div>
-          <div className="inline-block loading h-5 w-24 rounded"></div>
+          <div className="inline-block w-24 h-5 rounded loading"></div>
         </div>
       </div>
     </div>
     <div className="col-span-2 text-right">
       <div>
-        <div className="inline-block loading h-5 w-32 rounded"></div>
+        <div className="inline-block w-32 h-5 rounded loading"></div>
       </div>
       <div>
-        <div className="inline-block loading h-4 w-28 rounded"></div>
+        <div className="inline-block h-4 rounded loading w-28"></div>
       </div>
     </div>
   </div>
 );
 
 const MarketTableRow = ({ data, index }: { data: Token; index: number }) => {
-  const handleLogoError = (event: React.SyntheticEvent) => {
-    const imgElement = event.target as HTMLImageElement;
-    imgElement.src = "/icon-quiz.jpg";
-  };
-  const { tokenUtilService } = useAppContext();
+  const { tokenUtilService, handleLogoError } = useAppContext();
   return (
     <Link href={`/token/${data.id}`}>
-      <a className="w-full grid grid-cols-3 px-8 py-3 border-l-2 border-transparent border-t border-t-gray-200 hover:border-l-emerald-400 cursor-pointer items-center">
-        <div className="col-span-1 items-center flex">
+      <a className="grid items-center w-full grid-cols-3 px-8 py-3 border-t border-l-2 border-transparent cursor-pointer border-t-gray-200 hover:border-l-emerald-400">
+        <div className="flex items-center col-span-1">
           <div>
             <img
               src={tokenUtilService.logo(data.symbol)}
@@ -187,8 +183,8 @@ const TokenMarketTable = ({
   };
 
   return (
-    <div className="border rounded shadow-md bg-white">
-      <h3 className="px-8 py-4 border-b font-semibold">{title}</h3>
+    <div className="bg-white border rounded shadow-md">
+      <h3 className="px-8 py-4 font-semibold border-b">{title}</h3>
       <MarketTableHead
         onSort={handleSort}
         orderBy={orderBy}

@@ -4,6 +4,7 @@ import { KashiPair } from "../../types/KashiPair";
 import {
   KashiPairDayData,
   KashiPairDayDataMap,
+  KashiPairDayDataMapsCollateral,
 } from "../../types/KashiPairDayData";
 import { Token } from "../../types/Token";
 
@@ -130,7 +131,7 @@ class CalculateService {
     kashiPairs: KashiPairDayData[],
     pricesMap: { [key: string]: BigInt }
   ) {
-    const kashiPairsMap: KashiPairDayDataMap[] = [];
+    const kashiPairsMaps: KashiPairDayDataMap[] = [];
 
     let sumTotalAsset = BigNumber.from("0"),
       sumTotalBorrow = BigNumber.from("0"),
@@ -174,7 +175,7 @@ class CalculateService {
       };
 
       const kashiPairDate = moment.unix(kashiPair.date).format("YYYY-MM-DD");
-      const itemKashiPairMap = kashiPairsMap.find(
+      const itemKashiPairMap = kashiPairsMaps.find(
         (kashiPairMap) => kashiPairMap.date === kashiPairDate
       );
 
@@ -206,7 +207,7 @@ class CalculateService {
           .toBigInt();
         itemKashiPairMap.kashiPairs.push(newKashiPair);
       } else {
-        kashiPairsMap.push({
+        kashiPairsMaps.push({
           totalAsset: totalAsset.toBigInt(),
           totalBorrow: totalBorrow.toBigInt(),
           avgExchangeRate: kashiPair.avgExchangeRate || BigInt(0),
@@ -216,7 +217,7 @@ class CalculateService {
           kashiPairs: [newKashiPair],
         });
       }
-      kashiPairsMap.forEach((value) => {
+      kashiPairsMaps.forEach((value) => {
         value.avgExchangeRate = BigNumber.from(value.avgExchangeRate)
           .div(BigNumber.from(value.kashiPairs.length))
           .toBigInt();
@@ -227,7 +228,7 @@ class CalculateService {
           .div(BigNumber.from(value.kashiPairs.length))
           .toBigInt();
       });
-      kashiPairsMap.sort((a, b) => a.date.localeCompare(b.date));
+      kashiPairsMaps.sort((a, b) => a.date.localeCompare(b.date));
       return newKashiPair;
     });
 
@@ -235,14 +236,14 @@ class CalculateService {
       totalAsset: sumTotalAsset.toBigInt(),
       totalBorrow: sumTotalBorrow.toBigInt(),
       kashiPairs: newKashiPairs,
-      kashiPairsMap,
+      kashiPairsMaps,
     };
   }
 
   calculateKashiPairDayDataPricesByCollateral(
     kashiPairs: KashiPairDayData[],
     pricesMap: { [key: string]: BigInt }
-  ) {
+  ): KashiPairDayDataMapsCollateral[] {
     const kashiPairsMapGroupTemp: {
       [key: string]: { kashiPairs: KashiPairDayData[]; collateral: Token };
     } = {};
@@ -262,18 +263,19 @@ class CalculateService {
     const kashiPairsMapGroup = Object.values(kashiPairsMapGroupTemp);
 
     const kashiPairsMapCollateralGroup = kashiPairsMapGroup.map((value) => {
-      const { kashiPairsMap } = this.calculateKashiPairDayDataPrices(
+      const { kashiPairsMaps } = this.calculateKashiPairDayDataPrices(
         value.kashiPairs,
         pricesMap
       );
       return {
         collateral: value.collateral,
-        kashiPairsMap,
+        kashiPairsMaps,
       };
     });
-    return kashiPairsMapCollateralGroup.sort((a, b) => {
-      return a.collateral.symbol.localeCompare(b.collateral.symbol);
-    });
+
+    return kashiPairsMapCollateralGroup.sort((a, b) =>
+      a.collateral.symbol.localeCompare(b.collateral.symbol)
+    );
   }
 
   static getInstance() {
