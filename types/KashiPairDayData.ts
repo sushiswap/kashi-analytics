@@ -1,4 +1,5 @@
 import { KashiPair } from "./KashiPair";
+import { Token } from "./Token";
 
 export type KashiPairDayData = {
   id: string;
@@ -24,4 +25,9 @@ export type KashiPairDayDataMap = {
   avgInterestPerSecond: BigInt;
   date: string;
   kashiPairs: KashiPairDayData[];
+};
+
+export type KashiPairDayDataMapCollateral = {
+  collateral: Token;
+  kashiPairsMap: KashiPairDayDataMap;
 };

@@ -10,6 +10,7 @@ import { KashiPair } from "../../types/KashiPair";
 import {
   KashiPairDayData,
   KashiPairDayDataMap,
+  KashiPairDayDataMapCollateral,
 } from "../../types/KashiPairDayData";
 import { Token } from "../../types/Token";
 import BaseLayout from "../Layouts/BaseLayout";
@@ -23,7 +24,7 @@ const Token: NextPage = () => {
 
   const [kashiPairs, setKashiPairs] = useState<KashiPair[]>([]);
   const [kashiPairDayData, setKashiPairDayData] = useState<
-    KashiPairDayDataMap[]
+    KashiPairDayDataMapCollateral[]
   >([]);
   const [pricesMap, setPricesMap] = useState<{ [key: string]: BigInt }>({});
   const { calculateService, coinGeckoService } = useAppContext();
@@ -69,14 +70,6 @@ const Token: NextPage = () => {
       totalBorrow,
     } = calculateService.calculateKashiPairPrices(kashiPairs, pricesMap);
 
-    console.log(
-      "totalAsset",
-      pricesMap,
-      kashiPairs,
-      totalAsset.toNumber() / 100,
-      totalBorrow.toNumber() / 100
-    );
-
     setTotalAsset(totalAsset.toBigInt());
     setTotalBorrow(totalBorrow.toBigInt());
     setKashiPairs(newKashiPairs);
@@ -96,7 +89,6 @@ const Token: NextPage = () => {
           totalAsset={totalAsset}
           totalBorrow={totalBorrow}
           kashiPairs={kashiPairs}
-          kashiPairDayData={kashiPairDayData}
         />
       </BaseLayout>
     </>

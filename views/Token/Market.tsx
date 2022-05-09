@@ -14,23 +14,25 @@ const Market = ({
   totalBorrow = BigInt(0),
   kashiPairs,
   kashiPairDayData,
+  priceMap,
 }: {
   token?: Token;
   totalAsset?: BigInt;
   totalBorrow?: BigInt;
   kashiPairs?: KashiPair[];
   kashiPairDayData?: KashiPairDayDataMap[];
+  priceMap?: { [key: string]: BigInt };
 }) => {
   return (
     <>
-      <div className="container mx-auto -mt-16 px-4 mb-16">
+      <div className="container px-4 mx-auto mb-16 -mt-16">
         <TokenCard
           data={token}
           totalAsset={totalAsset}
           totalBorrow={totalBorrow}
           containerClass="mb-4"
         />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <PairCollateralPieChart
             title="Supply"
             type={"supply"}

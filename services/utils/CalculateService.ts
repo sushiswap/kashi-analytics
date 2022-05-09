@@ -239,6 +239,43 @@ class CalculateService {
     };
   }
 
+  calculateKashiPairDayDataPricesByCollateral(
+    kashiPairs: KashiPairDayData[],
+    pricesMap: { [key: string]: BigInt }
+  ) {
+    const kashiPairsMapGroupTemp: {
+      [key: string]: { kashiPairs: KashiPairDayData[]; collateral: Token };
+    } = {};
+    kashiPairs.forEach((kashiPair) => {
+      const { collateral } = kashiPair.pair;
+      if (collateral && collateral.id) {
+        if (kashiPairsMapGroupTemp[collateral.id]) {
+          kashiPairsMapGroupTemp[collateral.id].kashiPairs.push(kashiPair);
+        } else {
+          kashiPairsMapGroupTemp[collateral.id] = {
+            collateral,
+            kashiPairs: [kashiPair],
+          };
+        }
+      }
+    });
+    const kashiPairsMapGroup = Object.values(kashiPairsMapGroupTemp);
+
+    const kashiPairsMapCollateralGroup = kashiPairsMapGroup.map((value) => {
+      const { kashiPairsMap } = this.calculateKashiPairDayDataPrices(
+        value.kashiPairs,
+        pricesMap
+      );
+      return {
+        collateral: value.collateral,
+        kashiPairsMap,
+      };
+    });
+    return kashiPairsMapCollateralGroup.sort((a, b) => {
+      return a.collateral.symbol.localeCompare(b.collateral.symbol);
+    });
+  }
+
   static getInstance() {
     if (CalculateService.instance) {
       return CalculateService.instance;
