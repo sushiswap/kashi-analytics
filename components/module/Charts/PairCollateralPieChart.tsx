@@ -2,6 +2,7 @@ import classNames from "classnames";
 import { BigNumber } from "ethers";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { useRouter } from "next/router";
 import { useAppContext } from "../../../context/AppContext";
 import { KashiPair } from "../../../types/KashiPair";
 
@@ -16,6 +17,7 @@ const PairCollateralPieChart = ({
   title?: string;
   data?: KashiPair[];
 }) => {
+  const router = useRouter();
   const { tokenUtilService } = useAppContext();
   const valueFuncs = {
     supply: (kashiPair: KashiPair) =>
@@ -32,6 +34,7 @@ const PairCollateralPieChart = ({
     let seriesData: any[] = [];
     data?.forEach((item) => {
       seriesData.push({
+        id: item.id,
         name: tokenUtilService.pairSymbol(
           item.asset?.symbol,
           item.collateral?.symbol
@@ -43,8 +46,10 @@ const PairCollateralPieChart = ({
       {
         name: title,
         data: seriesData,
+        innerSize: "50%",
         tooltip: {
-          pointFormat: "${point.y}",
+          headerFormat: "<b style='font-size: 14px'>{point.key}</b><br/>",
+          pointFormat: "<span style='font-size: 14px'>${point.y}</span>",
         },
       },
     ];
@@ -57,7 +62,31 @@ const PairCollateralPieChart = ({
     chart: {
       type: "pie",
     },
+    colors: [
+      "#10b981",
+      "#2085ec",
+      "#72b4eb",
+      "#0a417a",
+      "#8464a0",
+      "#cea9bc",
+      "#a855f7",
+      "#323232",
+    ],
     series: getSeries(),
+    plotOptions: {
+      pie: {
+        cursor: "pointer",
+        dataLabels: {
+          enabled: false,
+        },
+        // showInLegend: true,
+        events: {
+          click: (event: Highcharts.SeriesClickEventObject) => {
+            router.push(`/pair/${(event.point as any).id}`);
+          },
+        },
+      },
+    },
   };
 
   return (

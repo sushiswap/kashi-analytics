@@ -30,21 +30,13 @@ const Home: NextPage = () => {
 
   const {
     loading: loadingKashiPairsDayData0,
-    error: errorKashiPairsDayData0,
     data: dataKashiPairsDayData0,
   } = useQuery(getKashiPairsDayDataQuery, { variables: { skip: 0 } });
 
   const {
     loading: loadingKashiPairsDayData1,
-    error: errorKashiPairsDayData1,
     data: dataKashiPairsDayData1,
   } = useQuery(getKashiPairsDayDataQuery, { variables: { skip: 1000 } });
-
-  const {
-    loading: loadingKashiPairsDayData2,
-    error: errorKashiPairsDayData2,
-    data: dataKashiPairsDayData2,
-  } = useQuery(getKashiPairsDayDataQuery, { variables: { skip: 2000 } });
 
   const [kashiPairsDayData, setKashiPairsDayData] = useState<
     KashiPairDayDataMap[]
@@ -71,8 +63,7 @@ const Home: NextPage = () => {
   const loadingDayData =
     loading ||
     loadingKashiPairsDayData0 ||
-    loadingKashiPairsDayData1 ||
-    loadingKashiPairsDayData2;
+    loadingKashiPairsDayData1
 
   useEffect(() => {
     if (dataKashiPairs) {
@@ -123,9 +114,28 @@ const Home: NextPage = () => {
     setTotalAssetsAmount(totalAssetsValue.toBigInt());
     setTotalBorrowsAmount(totalBorrowsValue.toBigInt());
 
-    setTop3MarketsBySupply(sortedKashiPairsBySupply.slice(0, 3));
-    setTop3MarketsByAsset(sortedKashiPairsByAsset.slice(0, 3));
-    setTop3MarketsByBorrow(sortedKashiPairsByBorrow.slice(0, 3));
+    setTop3MarketsBySupply(
+      sortedKashiPairsBySupply.slice(
+        0,
+        sortedKashiPairsBySupply.length < 3
+          ? sortedKashiPairsBySupply.length
+          : 3
+      )
+    );
+    setTop3MarketsByAsset(
+      sortedKashiPairsByAsset.slice(
+        0,
+        sortedKashiPairsByAsset.length < 3 ? sortedKashiPairsByAsset.length : 3
+      )
+    );
+    setTop3MarketsByBorrow(
+      sortedKashiPairsByBorrow.slice(
+        0,
+        sortedKashiPairsByBorrow.length < 3
+          ? sortedKashiPairsByBorrow.length
+          : 3
+      )
+    );
 
     setKashiPairs(newKashiPairs);
   };
@@ -143,13 +153,11 @@ const Home: NextPage = () => {
       !loadingKashiPairs &&
       !calculating &&
       !loadingKashiPairsDayData0 &&
-      !loadingKashiPairsDayData1 &&
-      !loadingKashiPairsDayData2
+      !loadingKashiPairsDayData1
     ) {
       const dataKashiPairsDayDataMap = [
         dataKashiPairsDayData0,
         dataKashiPairsDayData1,
-        dataKashiPairsDayData2,
       ];
 
       const dataKashiPairsDayData = dataKashiPairsDayDataMap.reduce(
@@ -176,7 +184,6 @@ const Home: NextPage = () => {
     calculating,
     loadingKashiPairsDayData0,
     loadingKashiPairsDayData1,
-    loadingKashiPairsDayData2,
   ]);
 
   return (

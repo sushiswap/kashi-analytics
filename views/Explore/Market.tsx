@@ -1,13 +1,17 @@
 import TokenMarketTable from "../../components/module/Tables/TokenMarketTable";
-import { Token } from "../../types/Token";
+import { KashiPairsByToken } from "../../types/KashiPair";
 
-const Market = ({ loading, data }: { loading: boolean; data: Token[] }) => {
+const Market = ({
+  loading,
+  data,
+}: {
+  loading: boolean;
+  data: KashiPairsByToken[];
+}) => {
   return (
-    <>
-      <div className="-mt-14 mb-24 max-w-6xl mx-auto px-4">
-        <TokenMarketTable title={"All Markets"} loading={loading} data={data} />
-      </div>
-    </>
+    <div className="max-w-6xl px-4 mx-auto mt-4 mb-24">
+      <TokenMarketTable title={"All Markets"} loading={loading} data={data} />
+    </div>
   );
 };
 

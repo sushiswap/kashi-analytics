@@ -20,6 +20,11 @@ const Pair: NextPage = () => {
   const [kashiPairDayData, setKashiPairDayData] = useState<
     KashiPairDayDataMap[]
   >([]);
+
+  const [kashiPairDayDataMonthly, setKashiPairDayDataMonthly] = useState<
+    KashiPairDayDataMap[]
+  >([]);
+
   const [pricesMap, setPricesMap] = useState<{ [key: string]: BigInt }>({});
   const { calculateService, coinGeckoService } = useAppContext();
 
@@ -59,12 +64,18 @@ const Pair: NextPage = () => {
     const kashiPair = newKashiPairs[0];
     setKashiPair(kashiPair);
 
-    const { kashiPairsMaps: kashiPairsMap } = calculateService.calculateKashiPairDayDataPrices(
+    const { kashiPairsMaps } = calculateService.calculateKashiPairDayDataPrices(
       kashiPairDayDatas,
       pricesMap
     );
-    console.log(dataKashiPairs)
-    setKashiPairDayData(kashiPairsMap);
+    setKashiPairDayData(kashiPairsMaps);
+
+    const { kashiPairsMaps: kashiPairsMapMonthly } =
+      calculateService.calculateKashiPairDayDataPricesMonthly(
+        kashiPairDayDatas,
+        pricesMap
+      );
+    setKashiPairDayDataMonthly(kashiPairsMapMonthly);
   };
 
   return (
@@ -78,7 +89,11 @@ const Pair: NextPage = () => {
       </Head>
       <BaseLayout>
         <Hero data={kashiPair} />
-        <Market kashiPair={kashiPair} kashiPairDayData={kashiPairDayData} />
+        <Market
+          kashiPair={kashiPair}
+          kashiPairDayData={kashiPairDayData}
+          kashiPairDayDataMonthly={kashiPairDayDataMonthly}
+        />
       </BaseLayout>
     </>
   );

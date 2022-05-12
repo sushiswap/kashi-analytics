@@ -73,7 +73,7 @@ const MarketTableHead = ({
         }}
       >
         <span className="cursor-pointer">
-          Total Asset
+          Total Available
           {orderBy === "totalAsset" && iconByDirection[orderDirection]}
         </span>
       </div>

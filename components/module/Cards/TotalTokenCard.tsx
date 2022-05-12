@@ -1,15 +1,16 @@
 import classNames from "classnames";
 import { BigNumber } from "ethers";
 import numeral from "numeral";
+import { useContext } from "react";
 import { useAppContext } from "../../../context/AppContext";
-import { KashiPair } from "../../../types/KashiPair";
+import { KashiPairsByToken } from "../../../types/KashiPair";
 import Progress from "../../base/Progress/Progress";
 
 export type TotalData = {
   amount: BigInt;
   volumeIn24H: BigInt;
   totalUsers: BigInt;
-  topMarkets: KashiPair[];
+  topMarkets: KashiPairsByToken[];
 };
 
 type AttributesByBorrowType = {
@@ -42,7 +43,7 @@ const AttributesMapByBorrow = {
   },
 } as AttributesMapByBorrowType;
 
-const TotalCard = ({
+const TotakTokenCard = ({
   containerClass = "",
   data,
   borrow = "borrow",
@@ -55,6 +56,7 @@ const TotalCard = ({
 }) => {
   const attributes = AttributesMapByBorrow[borrow];
   const isLoading = data.amount === BigInt(0) || loading;
+
   const { tokenUtilService } = useAppContext();
 
   return (
@@ -86,12 +88,9 @@ const TotalCard = ({
           data.topMarkets.map((marketData) => (
             <Progress
               loading={isLoading}
-              key={marketData.name}
+              key={marketData.token.id}
               containerClass="mb-4"
-              title={tokenUtilService.pairSymbol(
-                marketData.asset?.symbol,
-                marketData.collateral?.symbol
-              )}
+              title={`${tokenUtilService.symbol(marketData.token.symbol)}`}
               color={attributes.progressColor}
               progress={
                 BigNumber.from(
@@ -143,4 +142,4 @@ const TotalCard = ({
   );
 };
 
-export default TotalCard;
+export default TotakTokenCard;

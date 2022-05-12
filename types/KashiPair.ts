@@ -28,3 +28,10 @@ export type KashiPair = {
   block?: BigInt;
   timestamp?: BigInt;
 };
+
+export type KashiPairsByToken = {
+  token: Token;
+  totalAsset: BigInt;
+  totalBorrow: BigInt;
+  kashiPairs: KashiPair[];
+};
