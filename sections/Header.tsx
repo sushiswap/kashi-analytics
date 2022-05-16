@@ -17,29 +17,29 @@ const Header = () => {
     <Disclosure as="nav" className="bg-black">
       {({ open }) => (
         <>
-          <div className="container mx-auto px-4">
+          <div className="container px-4 mx-auto">
             <div className="relative flex items-center justify-between py-3">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
                 <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-emerald-300 hover:text-white">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
-                    <HiX className="block h-6 w-6" aria-hidden="true" />
+                    <HiX className="block w-6 h-6" aria-hidden="true" />
                   ) : (
                     <HiOutlineMenu
-                      className="block h-6 w-6"
+                      className="block w-6 h-6"
                       aria-hidden="true"
                     />
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex-shrink-0 flex items-center">
+              <div className="flex items-center justify-center flex-1 sm:items-stretch sm:justify-start">
+                <div className="flex items-center flex-shrink-0">
                   <Link href="/">
                     <a>
                       <Image
-                        width="40px"
-                        height="40px"
+                        width="50px"
+                        height="50px"
                         className="w-auto"
                         src="/logo.png"
                         alt="Kashi Market"
@@ -47,7 +47,7 @@ const Header = () => {
                     </a>
                   </Link>
                 </div>
-                <div className="hidden sm:block mx-auto">
+                <div className="hidden mx-auto sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
                       <Link href={item.href} key={item.name}>
