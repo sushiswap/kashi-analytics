@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { BigNumber } from "ethers";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import numeral from "numeral";
 import React, { useEffect, useState } from "react";
 import { FaSortDown, FaSortUp } from "react-icons/fa";
@@ -34,8 +35,8 @@ const MarketTableHead = ({
   };
 
   return (
-    <div className="grid w-full grid-cols-10 px-8 py-2 text-sm text-slate-400">
-      <div className="col-span-2">
+    <tr className="text-sm border-t text-slate-400">
+      <td className="py-2 pl-8 pr-2">
         <span
           onClick={() => {
             onSort("asset");
@@ -54,9 +55,9 @@ const MarketTableHead = ({
           Collateral
           {orderBy === "collateral" && iconByDirection[orderDirection]}
         </span>
-      </div>
-      <div
-        className="col-span-2 text-right"
+      </td>
+      <td
+        className="p-2 text-right"
         onClick={() => {
           onSort("totalSupply");
         }}
@@ -65,9 +66,9 @@ const MarketTableHead = ({
           Total Supply
           {orderBy === "totalSupply" && iconByDirection[orderDirection]}
         </span>
-      </div>
-      <div
-        className="col-span-2 text-right"
+      </td>
+      <td
+        className="p-2 text-right"
         onClick={() => {
           onSort("totalAsset");
         }}
@@ -76,9 +77,9 @@ const MarketTableHead = ({
           Total Available
           {orderBy === "totalAsset" && iconByDirection[orderDirection]}
         </span>
-      </div>
-      <div
-        className="col-span-1 text-right"
+      </td>
+      <td
+        className="p-2 text-right"
         onClick={() => {
           onSort("supplyAPY");
         }}
@@ -87,9 +88,9 @@ const MarketTableHead = ({
           Supply APY
           {orderBy === "supplyAPY" && iconByDirection[orderDirection]}
         </span>
-      </div>
-      <div
-        className="col-span-2 text-right"
+      </td>
+      <td
+        className="p-2 text-right"
         onClick={() => {
           onSort("totalBorrow");
         }}
@@ -98,9 +99,9 @@ const MarketTableHead = ({
           Total Borrow
           {orderBy === "totalBorrow" && iconByDirection[orderDirection]}
         </span>
-      </div>
-      <div
-        className="col-span-1 text-right"
+      </td>
+      <td
+        className="py-2 pl-2 pr-8 text-right"
         onClick={() => {
           onSort("borrowAPY");
         }}
@@ -109,58 +110,60 @@ const MarketTableHead = ({
           Borrow APY
           {orderBy === "borrowAPY" && iconByDirection[orderDirection]}
         </span>
-      </div>
-    </div>
+      </td>
+    </tr>
   );
 };
 
 const MarketTableRowLoading = () => (
-  <div className="grid items-center w-full grid-cols-10 px-8 py-3 border-t border-l-2 border-transparent cursor-pointer border-t-gray-200 hover:border-l-primary1-400">
-    <div className="flex items-center col-span-2">
-      <div>
-        <div className="inline-block w-8 h-8 rounded-full loading"></div>
-        <div className="inline-block w-8 h-8 -ml-2 rounded-full loading"></div>
-      </div>
-      <div className="ml-2">
+  <tr className="border-t border-l-2 border-transparent cursor-pointer border-t-gray-200 hover:border-l-primary1-400">
+    <td className="py-3 pl-8 pr-2">
+      <div className="md:flex">
         <div>
-          <div className="inline-block w-24 h-5 rounded loading"></div>
+          <div className="inline-block w-8 h-8 rounded-full loading"></div>
+          <div className="inline-block w-8 h-8 -ml-2 rounded-full loading"></div>
         </div>
-        <div>
-          <div className="inline-block w-12 h-4 rounded loading"></div>
+        <div className="md:ml-2">
+          <div>
+            <div className="inline-block w-24 h-5 rounded loading"></div>
+          </div>
+          <div>
+            <div className="inline-block w-12 h-4 rounded loading"></div>
+          </div>
         </div>
       </div>
-    </div>
-    <div className="col-span-2 text-right">
+    </td>
+    <td className="px-2 py-3 text-right">
       <div>
         <div className="inline-block w-32 h-5 rounded loading"></div>
       </div>
       <div>
         <div className="inline-block h-4 rounded loading w-28"></div>
       </div>
-    </div>
-    <div className="col-span-2 text-right">
+    </td>
+    <td className="px-2 py-3 text-right">
       <div>
         <div className="inline-block w-32 h-5 rounded loading"></div>
       </div>
       <div>
         <div className="inline-block h-4 rounded loading w-28"></div>
       </div>
-    </div>
-    <div className="col-span-1 text-right">
+    </td>
+    <td className="px-2 py-3 text-right">
       <div className="inline-block w-12 h-5 rounded loading"></div>
-    </div>
-    <div className="col-span-2 text-right">
+    </td>
+    <td className="px-2 py-3 text-right">
       <div>
         <div className="inline-block w-32 h-5 rounded loading"></div>
       </div>
       <div>
         <div className="inline-block h-4 rounded loading w-28"></div>
       </div>
-    </div>
-    <div className="col-span-1 text-right">
+    </td>
+    <td className="py-3 pl-2 pr-8 text-right">
       <div className="inline-block w-12 h-5 rounded loading"></div>
-    </div>
-  </div>
+    </td>
+  </tr>
 );
 
 const MarketTableRow = ({
@@ -171,117 +174,112 @@ const MarketTableRow = ({
   index: number;
 }) => {
   const { tokenUtilService, handleLogoError } = useAppContext();
+  const router = useRouter();
+  const goto = (route: string) => {
+    router.push(route);
+  };
 
   return (
-    <Link href={`/pair/${data.id}`}>
-      <a className="grid items-center w-full grid-cols-10 px-8 py-3 border-t border-l-2 border-transparent cursor-pointer border-t-gray-200 hover:border-l-primary1-400">
-        <div className="flex items-center col-span-2">
-          <div>
+    <tr
+      onClick={() => goto(`/pair/${data.id}`)}
+      className="border-t border-l-2 border-transparent cursor-pointer border-t-gray-200 hover:border-l-primary1-400"
+    >
+      <td className="py-3 pl-8 pr-2">
+        <div className="md:flex">
+          <div className="flex">
             <img
               src={tokenUtilService.logo(data.asset?.symbol)}
-              width="30px"
-              height="30px"
-              className="inline-block rounded-full"
+              className="inline-block w-8 h-8 rounded-full"
               onError={handleLogoError}
               alt={data?.symbol}
             />
             <img
               src={tokenUtilService.logo(data.collateral?.symbol)}
-              width="30px"
-              height="30px"
               onError={handleLogoError}
-              className="inline-block -ml-2 rounded-full"
+              className="inline-block w-8 h-8 -ml-2 rounded-full"
               alt={data?.symbol}
             />
           </div>
-          <div className="ml-2">
-            <div>
-              {tokenUtilService.pairSymbol(
-                data.asset?.symbol,
-                data.collateral?.symbol
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="col-span-2 text-right">
-          <div>
-            {numeral(
-              BigNumber.from(data?.totalAsset)
-                .add(BigNumber.from(data.totalBorrow))
-                .toNumber() / 100
-            ).format("$0,.00")}
-          </div>
-          <div className="text-xs text-gray-400">
-            {numeral(
-              BigNumber.from(data?.totalAssetElastic)
-                .add(BigNumber.from(data.totalBorrowElastic))
-                .div(
-                  BigNumber.from("10").pow(
-                    Number(data.asset?.decimals || 0) - 2
-                  )
-                )
-                .toNumber() / 100
-            ).format("0,.00")}
-            &nbsp;
-            {data.asset?.symbol}
-          </div>
-        </div>
-        <div className="col-span-2 text-right">
-          <div>
-            {numeral(BigNumber.from(data?.totalAsset).toNumber() / 100).format(
-              "$0,.00"
+          <div className="text-sm md:text-base md:ml-2">
+            {tokenUtilService.pairSymbol(
+              data.asset?.symbol,
+              data.collateral?.symbol
             )}
           </div>
-          <div className="text-xs text-gray-400">
-            {numeral(
-              BigNumber.from(data?.totalAssetElastic)
-                .div(
-                  BigNumber.from("10").pow(
-                    Number(data.asset?.decimals || 0) - 2
-                  )
-                )
-                .toNumber() / 100
-            ).format("0,.00")}
-            &nbsp;
-            {data.asset?.symbol}
-          </div>
         </div>
-        <div className="col-span-1 text-right">
+      </td>
+      <td className="px-2 py-3 text-right">
+        <div>
           {numeral(
-            BigNumber.from(data?.supplyAPR)
-              .div(BigNumber.from("1000000000000"))
-              .toNumber() / 100000
-          ).format("%0.00")}
+            BigNumber.from(data?.totalAsset)
+              .add(BigNumber.from(data.totalBorrow))
+              .toNumber() / 100
+          ).format("$0,.00")}
         </div>
-        <div className="col-span-2 text-right">
-          <div>
-            {numeral(BigNumber.from(data?.totalBorrow).toNumber() / 100).format(
-              "$0,.00"
-            )}
-          </div>
-          <div className="text-xs text-gray-400">
-            {numeral(
-              BigNumber.from(data?.totalBorrowElastic)
-                .div(
-                  BigNumber.from("10").pow(
-                    Number(data.asset?.decimals || 0) - 2
-                  )
-                )
-                .toNumber() / 100
-            ).format("0,.00")}
-            &nbsp;
-            {data.asset?.symbol}
-          </div>
-        </div>
-        <div className="col-span-1 text-right">
+        <div className="text-xs text-gray-400">
           {numeral(
-            BigNumber.from(data?.borrowAPR)
-              .div(BigNumber.from("1000000000000"))
-              .toNumber() / 100000
-          ).format("%0.00")}
+            BigNumber.from(data?.totalAssetElastic)
+              .add(BigNumber.from(data.totalBorrowElastic))
+              .div(
+                BigNumber.from("10").pow(Number(data.asset?.decimals || 0) - 2)
+              )
+              .toNumber() / 100
+          ).format("0,.00")}
+          &nbsp;
+          {data.asset?.symbol}
         </div>
-      </a>
-    </Link>
+      </td>
+      <td className="px-2 py-3 text-right">
+        <div>
+          {numeral(BigNumber.from(data?.totalAsset).toNumber() / 100).format(
+            "$0,.00"
+          )}
+        </div>
+        <div className="text-xs text-gray-400">
+          {numeral(
+            BigNumber.from(data?.totalAssetElastic)
+              .div(
+                BigNumber.from("10").pow(Number(data.asset?.decimals || 0) - 2)
+              )
+              .toNumber() / 100
+          ).format("0,.00")}
+          &nbsp;
+          {data.asset?.symbol}
+        </div>
+      </td>
+      <td className="px-2 py-3 text-right">
+        {numeral(
+          BigNumber.from(data?.supplyAPR)
+            .div(BigNumber.from("1000000000000"))
+            .toNumber() / 100000
+        ).format("%0.00")}
+      </td>
+      <td className="px-2 py-3 text-right">
+        <div>
+          {numeral(BigNumber.from(data?.totalBorrow).toNumber() / 100).format(
+            "$0,.00"
+          )}
+        </div>
+        <div className="text-xs text-gray-400">
+          {numeral(
+            BigNumber.from(data?.totalBorrowElastic)
+              .div(
+                BigNumber.from("10").pow(Number(data.asset?.decimals || 0) - 2)
+              )
+              .toNumber() / 100
+          ).format("0,.00")}
+          &nbsp;
+          {data.asset?.symbol}
+        </div>
+      </td>
+      <td className="py-3 pl-2 pr-8 text-right">
+        {numeral(
+          BigNumber.from(data?.borrowAPR)
+            .div(BigNumber.from("1000000000000"))
+            .toNumber() / 100000
+        ).format("%0.00")}
+      </td>
+    </tr>
   );
 };
 
@@ -413,37 +411,38 @@ const PairMarketTable = ({
   };
 
   return (
-    <div className="overflow-x-auto">
-      <div
-        className="bg-white border rounded shadow-md"
-        style={{ minWidth: "900px" }}
-      >
-        <h3 className="px-8 py-4 font-semibold border-b">{title}</h3>
-        <MarketTableHead
-          onSort={handleSort}
-          orderBy={orderBy}
-          orderDirection={orderDirection}
-        />
+    <div className="overflow-x-auto bg-white border rounded shadow-md">
+      <h3 className="px-8 py-4 font-semibold">{title}</h3>
+      <table className="w-full pair-market-table">
+        <thead>
+          <MarketTableHead
+            onSort={handleSort}
+            orderBy={orderBy}
+            orderDirection={orderDirection}
+          />
+        </thead>
         {loading ? (
-          <>
+          <tbody>
             <MarketTableRowLoading />
             <MarketTableRowLoading />
             <MarketTableRowLoading />
             <MarketTableRowLoading />
-          </>
+          </tbody>
         ) : (
-          <InfiniteScroll
-            loadMore={handleLoadMore}
-            hasMore={list.length < data.length}
-            useWindow
-            threshold={10}
-          >
-            {list.map((data, index) => (
-              <MarketTableRow key={`${index}`} data={data} index={index} />
+          // <InfiniteScroll
+          //   loadMore={handleLoadMore}
+          //   hasMore={list.length < data.length}
+          //   useWindow
+          //   threshold={10}
+          // >
+          <tbody>
+            {sortedList.map((data, index) => (
+              <MarketTableRow key={`${data.id}`} data={data} index={index} />
             ))}
-          </InfiniteScroll>
+          </tbody>
+          // </InfiniteScroll>
         )}
-      </div>
+      </table>
     </div>
   );
 };

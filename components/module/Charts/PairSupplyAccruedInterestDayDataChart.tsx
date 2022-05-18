@@ -8,7 +8,7 @@ import { KashiPairDayDataMap } from "../../../types/KashiPairDayData";
 
 const PairSupplyAccruedInterestDayDataChart = ({
   containerClass = "",
-  title = "Accrued interest",
+  title = "Accrued Interest",
   data,
 }: {
   containerClass?: string;
@@ -35,7 +35,7 @@ const PairSupplyAccruedInterestDayDataChart = ({
         color: TailwindConfig.theme.colors.secondary1.DEFAULT,
         data: seriesData,
         tooltip: {
-          pointFormat: "Accrued interest &nbsp;&nbsp; ${point.y}",
+          pointFormat: "Accrued Interest &nbsp;&nbsp; ${point.y}",
         },
       },
     ];

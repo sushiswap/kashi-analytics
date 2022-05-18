@@ -90,7 +90,7 @@ const TotalCompareChart = ({
   return (
     <div className="overflow-hidden bg-white rounded shadow-lg">
       <div className="pt-6 text-lg font-medium text-center">
-        Borrow vs Supply ratio
+        Borrow vs Supply Ratio
       </div>
       {loading || !data || data.length === 0 ? (
         <div>

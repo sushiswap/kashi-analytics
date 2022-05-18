@@ -39,17 +39,17 @@ const Market = ({
         />
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <PairCollateralPieChart
-            title="Total supply"
+            title="Total Supply"
             type={"supply"}
             data={kashiPairs}
           />
           <PairCollateralPieChart
-            title="Total available"
+            title="Total Available"
             type={"asset"}
             data={kashiPairs}
           />
           <PairCollateralPieChart
-            title="Total borrow"
+            title="Total Borrow"
             type={"borrow"}
             data={kashiPairs}
           />
@@ -58,12 +58,12 @@ const Market = ({
           <PairSupplyBorrowDayDataChart
             data={kashiPairDayDataMaps}
             type="supply"
-            title="Total supply"
+            title="Total Supply"
           />
           <PairSupplyBorrowDayDataChart
             data={kashiPairDayDataMaps}
             type="borrow"
-            title="Total borrow"
+            title="Total Borrow"
           />
         </div>
         <div className="mt-4">

@@ -21,6 +21,11 @@ const Market = ({
       <div className="container px-4 mx-auto mb-16 -mt-16">
         <PairCard data={kashiPair} containerClass="mb-4" />
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <PairSupplyBorrowMonthDataChart
+            containerClass="col-span-2"
+            title="Monthly Net Supply &amp; Borrow"
+            data={kashiPairDayDataMonthly}
+          />
           <PairSupplyBorrowDayDataChart
             type="supply"
             title="Supply"
@@ -34,11 +39,6 @@ const Market = ({
           <PairInterestPerSecondDayDataChart data={kashiPairDayData} />
           <PairUtilizationDayDataChart data={kashiPairDayData} />
           <PairSupplyAccruedInterestDayDataChart data={kashiPairDayData} />
-          <PairSupplyBorrowMonthDataChart
-            type="borrow"
-            title="Monthly Net Borrow"
-            data={kashiPairDayDataMonthly}
-          />
         </div>
       </div>
     </>

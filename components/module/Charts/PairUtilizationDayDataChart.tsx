@@ -8,7 +8,7 @@ import { KashiPairDayDataMap } from "../../../types/KashiPairDayData";
 
 const PairUtilizationDayDataChart = ({
   containerClass = "",
-  title = "Utilization rate",
+  title = "Utilization Rate",
   data,
 }: {
   containerClass?: string;

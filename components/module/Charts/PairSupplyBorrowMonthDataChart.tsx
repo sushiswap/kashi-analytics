@@ -33,29 +33,40 @@ const AttributesByType = {
 };
 
 const PairSupplyBorrowMonthDataChart = ({
-  type = "supply",
+  // type = "supply",
   containerClass = "",
-  title = "Deposit",
+  title = "Monthly Net Supply & Borrow",
   data,
 }: {
-  type?: "supply" | "borrow";
+  // type?: "supply" | "borrow";
   containerClass?: string;
   title?: string;
   data?: KashiPairDayDataMap[];
 }) => {
   const getSeries = () => {
-    let seriesData: any[] = [];
-    const attribute = AttributesByType[type];
+    let borrowSeriesData: any[] = [];
+    const borrowAttribute = AttributesByType["borrow"];
+
+    let supplySeriesData: any[] = [];
+    const supplyAttribute = AttributesByType["supply"]
     data?.forEach((item) => {
-      seriesData.push(attribute.valueFunc(item));
+      borrowSeriesData.push(borrowAttribute.valueFunc(item));
+      supplySeriesData.push(supplyAttribute.valueFunc(item));
     });
     return [
       {
         type: "area",
-        color: attribute.color,
-        data: seriesData,
+        color: supplyAttribute.color,
+        data: supplySeriesData,
         pointIntervalUnit: "month",
-        tooltip: attribute.tooltip,
+        tooltip: supplyAttribute.tooltip,
+      },
+      {
+        type: "area",
+        color: borrowAttribute.color,
+        data: borrowSeriesData,
+        pointIntervalUnit: "month",
+        tooltip: borrowAttribute.tooltip,
       },
     ];
   };

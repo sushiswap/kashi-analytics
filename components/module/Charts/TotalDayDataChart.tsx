@@ -97,7 +97,7 @@ const TotalDayDataChart = ({
   return (
     <div className="overflow-hidden bg-white rounded shadow-lg">
       <div className="pt-6 text-lg font-medium text-center">
-        Total supply &amp; Total borrow
+        Total Supply &amp; Total Borrow
       </div>
       {loading || !data || data.length === 0 ? (
         <div>
