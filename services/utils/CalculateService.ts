@@ -128,12 +128,6 @@ class CalculateService {
             .add(BigNumber.from(kashiPair.totalAsset))
             .toBigInt();
 
-          kashiPairsByToken.totalAsset = BigNumber.from(
-            kashiPairsByToken.totalAsset
-          )
-            .add(BigNumber.from(kashiPair.totalAsset))
-            .toBigInt();
-
           kashiPairsByToken.totalBorrow = BigNumber.from(
             kashiPairsByToken.totalBorrow
           )

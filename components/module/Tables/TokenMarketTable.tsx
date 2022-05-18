@@ -265,32 +265,37 @@ const TokenMarketTable = ({
   };
 
   return (
-    <div className="bg-white border rounded shadow-md">
-      <h3 className="px-8 py-4 font-semibold border-b">{title}</h3>
-      <MarketTableHead
-        onSort={handleSort}
-        orderBy={orderBy}
-        orderDirection={orderDirection}
-      />
-      {loading ? (
-        <>
-          <MarketTableRowLoading />
-          <MarketTableRowLoading />
-          <MarketTableRowLoading />
-          <MarketTableRowLoading />
-        </>
-      ) : (
-        <InfiniteScroll
-          loadMore={handleLoadMore}
-          hasMore={list.length < data.length}
-          useWindow
-          threshold={10}
-        >
-          {list.map((data, index) => (
-            <MarketTableRow key={`${index}`} data={data} index={index} />
-          ))}
-        </InfiniteScroll>
-      )}
+    <div className="overflow-x-auto">
+      <div
+        className="bg-white border rounded shadow-md"
+        style={{ minWidth: "720px" }}
+      >
+        <h3 className="px-8 py-4 font-semibold border-b">{title}</h3>
+        <MarketTableHead
+          onSort={handleSort}
+          orderBy={orderBy}
+          orderDirection={orderDirection}
+        />
+        {loading ? (
+          <>
+            <MarketTableRowLoading />
+            <MarketTableRowLoading />
+            <MarketTableRowLoading />
+            <MarketTableRowLoading />
+          </>
+        ) : (
+          <InfiniteScroll
+            loadMore={handleLoadMore}
+            hasMore={list.length < data.length}
+            useWindow
+            threshold={10}
+          >
+            {list.map((data, index) => (
+              <MarketTableRow key={`${index}`} data={data} index={index} />
+            ))}
+          </InfiniteScroll>
+        )}
+      </div>
     </div>
   );
 };

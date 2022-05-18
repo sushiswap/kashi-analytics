@@ -14,7 +14,7 @@ const Total = ({
   borrow: TotalData;
 }) => {
   return (
-    <div className="container grid grid-cols-1 gap-4 px-4 mx-auto mb-4 -mt-16 md:grid-cols-3">
+    <div className="container grid grid-cols-1 gap-4 px-4 mx-auto mb-4 -mt-16 lg:grid-cols-3">
       <TotakTokenCard
         containerClass="col-span-1"
         loading={loading}

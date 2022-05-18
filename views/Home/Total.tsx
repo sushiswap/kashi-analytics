@@ -13,7 +13,7 @@ const Total = ({
   borrow: TotalData;
 }) => {
   return (
-    <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 -mt-16 gap-4 mb-4">
+    <div className="container grid grid-cols-1 gap-4 px-4 mx-auto mb-4 -mt-16 lg:grid-cols-3">
       <TotalCard
         containerClass="col-span-1"
         loading={loading}
