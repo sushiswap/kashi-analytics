@@ -3,6 +3,7 @@ import { BigNumber } from "ethers";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts/highstock";
 import moment from "moment";
+import TailwindConfig from "../../../config/tailwind";
 import { KashiPairDayDataMap } from "../../../types/KashiPairDayData";
 
 const PairInterestPerSecondDayDataChart = ({
@@ -41,7 +42,7 @@ const PairInterestPerSecondDayDataChart = ({
     return [
       {
         type: "line",
-        color: "#10b981",
+        color: TailwindConfig.theme.colors.secondary1.DEFAULT,
         data: supplyData,
         tooltip: {
           pointFormat: "Supply APR&nbsp; {point.y}%",
@@ -49,7 +50,7 @@ const PairInterestPerSecondDayDataChart = ({
       },
       {
         type: "line",
-        color: "#a855f7",
+        color: TailwindConfig.theme.colors.primary2.DEFAULT,
         data: borrowData,
         tooltip: {
           pointFormat: "Borrow APR&nbsp; {point.y}%",

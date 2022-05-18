@@ -13,7 +13,7 @@ export type TotalData = {
 };
 
 type AttributesByBorrowType = {
-  progressColor: "purple" | "emerald" | "sky";
+  progressColor: "secondary1" | "primary1" | "primary2";
   title: string;
   users: string;
 };
@@ -26,17 +26,17 @@ type AttributesMapByBorrowType = {
 
 const AttributesMapByBorrow = {
   borrow: {
-    progressColor: "purple",
+    progressColor: "primary2",
     title: "Total Borrow",
     users: "Borrowers",
   },
   asset: {
-    progressColor: "sky",
+    progressColor: "primary1",
     title: "Total Available",
     users: "Suppliers",
   },
   supply: {
-    progressColor: "emerald",
+    progressColor: "secondary1",
     title: "Total Supply",
     users: "Suppliers",
   },

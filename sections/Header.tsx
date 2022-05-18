@@ -21,7 +21,7 @@ const Header = () => {
             <div className="relative flex items-center justify-between py-3">
               <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
                 {/* Mobile menu button*/}
-                <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-emerald-300 hover:text-white">
+                <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-primary1-300 hover:text-white">
                   <span className="sr-only">Open main menu</span>
                   {open ? (
                     <HiX className="block w-6 h-6" aria-hidden="true" />
@@ -53,9 +53,10 @@ const Header = () => {
                       <Link href={item.href} key={item.name}>
                         <a
                           className={classNames({
-                            "border-b-2 transition-colors text-white hover:text-emerald-300 mx-2 py-2 font-medium":
+                            "border-b-2 transition-colors text-white hover:text-primary1-300 mx-2 py-2 font-medium":
                               true,
-                            "border-emerald-400": router.pathname === item.href,
+                            "border-primary1-400":
+                              router.pathname === item.href,
                             "border-transparent": router.pathname !== item.href,
                           })}
                         >
@@ -80,7 +81,7 @@ const Header = () => {
                   as="a"
                   href={item.href}
                   className={classNames({
-                    "text-gray-300 hover:bg-emerald-400 rounded hover:text-white transition-colors":
+                    "text-gray-300 hover:bg-primary1-400 rounded hover:text-white transition-colors":
                       true,
                     "block px-3 py-2 text-base font-medium": true,
                   })}
@@ -88,7 +89,7 @@ const Header = () => {
                   <span
                     className={classNames({
                       "border-b-2": true,
-                      "border-emerald-400": router.pathname === item.href,
+                      "border-primary1-400": router.pathname === item.href,
                       "border-transparent": router.pathname !== item.href,
                     })}
                   >

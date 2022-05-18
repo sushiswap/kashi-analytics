@@ -11,7 +11,7 @@ const LinkItem = ({
   children?: ReactNode;
 }) => (
   <Link href={href}>
-    <a className="inline-block py-3 text-gray-400 hover:text-emerald-300">
+    <a className="inline-block py-3 text-gray-400 hover:text-primary1-300">
       {children}
     </a>
   </Link>
@@ -20,8 +20,8 @@ const LinkItem = ({
 const Footer = () => {
   return (
     <div className="bg-black">
-      <div className="container mx-auto px-4 py-4">
-        <div className="grid grid-cols-6 gap-4 text-white py-8">
+      <div className="container px-4 py-4 mx-auto">
+        <div className="grid grid-cols-6 gap-4 py-8 text-white">
           <div className="col-span-6 sm:col-span-1">
             <Link href="/">
               <a className="flex items-center">
@@ -38,8 +38,8 @@ const Footer = () => {
           {/* <div className="col-span-6 sm:col-span-4">
             <div className="grid grid-cols-2 sm:grid-cols-3">
               <div className="col-span-1 mt-4 sm:mt-0">
-                <h4 className="font-medium text-lg">Protocal</h4>
-                <ul className="text-xs mt-3">
+                <h4 className="text-lg font-medium">Protocal</h4>
+                <ul className="mt-3 text-xs">
                   <li>
                     <LinkItem href="/market">Market</LinkItem>
                   </li>
@@ -55,8 +55,8 @@ const Footer = () => {
                 </ul>
               </div>
               <div className="col-span-1 mt-4 sm:mt-0">
-                <h4 className="font-medium text-lg">Governance</h4>
-                <ul className="text-xs mt-3">
+                <h4 className="text-lg font-medium">Governance</h4>
+                <ul className="mt-3 text-xs">
                   <li>
                     <LinkItem href="/overview">Overview</LinkItem>
                   </li>
@@ -69,8 +69,8 @@ const Footer = () => {
                 </ul>
               </div>
               <div className="col-span-1 mt-4 sm:mt-0">
-                <h4 className="font-medium text-lg">Community</h4>
-                <ul className="text-xs mt-3">
+                <h4 className="text-lg font-medium">Community</h4>
+                <ul className="mt-3 text-xs">
                   <li>
                     <LinkItem href="/discord">Discord</LinkItem>
                   </li>
@@ -84,11 +84,11 @@ const Footer = () => {
               </div>
             </div>
           </div>
-          <div className="col-span-6 hidden sm:block sm:col-span-1 text-right">
+          <div className="hidden col-span-6 text-right sm:block sm:col-span-1">
             <Button rounded="sm">App</Button>
           </div> */}
         </div>
-        <div className="border-t border-slate-800 text-slate-400 text-xs pt-6">
+        <div className="pt-6 text-xs border-t border-slate-800 text-slate-400">
           © 2022 Kashi Market
         </div>
       </div>

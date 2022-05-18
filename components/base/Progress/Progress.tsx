@@ -2,35 +2,59 @@ import classNames from "classnames";
 import numeral from "numeral";
 
 const classByColor = {
-  emerald: {
+  primary1: {
     title: "text-gray-400",
-    percent: "text-emerald-500",
-    progressContainer: "bg-emerald-300",
-    progressActive: "bg-emerald-500",
+    percent: "text-primary1-500",
+    progressContainer: "bg-primary1-300",
+    progressActive: "bg-primary1-500",
   },
-  purple: {
+  primary2: {
     title: "text-gray-400",
-    percent: "text-purple-500",
-    progressContainer: "bg-purple-300",
-    progressActive: "bg-purple-500",
+    percent: "text-primary2-500",
+    progressContainer: "bg-primary2-300",
+    progressActive: "bg-primary2-500",
   },
-  sky: {
+  primary3: {
+    title: "text-primary3-400",
+    percent: "text-primary3-500",
+    progressContainer: "bg-primary3-300",
+    progressActive: "bg-primary3-500",
+  },
+  secondary1: {
     title: "text-gray-400",
-    percent: "text-sky-500",
-    progressContainer: "bg-sky-300",
-    progressActive: "bg-sky-500",
+    percent: "text-secondary1-500",
+    progressContainer: "bg-secondary1-300",
+    progressActive: "bg-secondary1-500",
+  },
+  secondary2: {
+    title: "text-gray-400",
+    percent: "text-secondary2-500",
+    progressContainer: "bg-secondary2-300",
+    progressActive: "bg-secondary2-500",
+  },
+  secondary3: {
+    title: "text-gray-400",
+    percent: "text-secondary3-500",
+    progressContainer: "bg-secondary3-300",
+    progressActive: "bg-secondary3-500",
   },
 };
 
 const Progress = ({
   loading = false,
-  color = "emerald",
+  color = "primary1",
   progress = 0,
   title = "",
   containerClass = "",
 }: {
   loading?: boolean;
-  color?: "emerald" | "purple" | "sky";
+  color?:
+    | "primary1"
+    | "primary2"
+    | "primary3"
+    | "secondary1"
+    | "secondary2"
+    | "secondary3";
   progress?: number;
   title?: string;
   containerClass?: string;
@@ -46,7 +70,7 @@ const Progress = ({
           })}
         >
           {loading ? (
-            <div className="inline-block loading h-4 w-16 rounded"></div>
+            <div className="inline-block w-16 h-4 rounded loading"></div>
           ) : (
             title
           )}
@@ -58,7 +82,7 @@ const Progress = ({
           })}
         >
           {loading ? (
-            <div className="inline-block loading h-4 w-16 rounded"></div>
+            <div className="inline-block w-16 h-4 rounded loading"></div>
           ) : (
             numeral(progress).format("%0.00")
           )}
@@ -66,7 +90,7 @@ const Progress = ({
       </div>
       <div className="relative h-1 mt-2">
         {loading ? (
-          <div className="loading h-1 rounded"></div>
+          <div className="h-1 rounded loading"></div>
         ) : (
           <>
             <span

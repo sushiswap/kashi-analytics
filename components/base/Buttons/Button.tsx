@@ -11,10 +11,10 @@ const classBySize = {
 };
 
 const classByColor = {
-  emerald: {
+  primary1: {
     outlined:
-      "border border-emerald-500 bg-transparent text-emerald-500 hover:bg-emerald-500 hover:text-white",
-    solid: "text-white bg-emerald-600 hover:bg-emerald-700",
+      "border border-primary1-500 bg-transparent text-primary1-500 hover:bg-primary1-500 hover:text-white",
+    solid: "text-white bg-primary1-600 hover:bg-primary1-700",
   },
 };
 
@@ -29,7 +29,7 @@ const classByRounded = {
 
 const Button = ({
   onClick,
-  color = "emerald",
+  color = "primary1",
   children,
   outlined = true,
   rounded = "none",
@@ -41,7 +41,7 @@ const Button = ({
   onClick?: MouseEventHandler<HTMLButtonElement>;
   children?: ReactNode;
   className?: string;
-  color?: "emerald";
+  color?: "primary1";
   size?: "xs" | "sm" | "md" | "lg" | "xl";
   rounded?: "none" | "sm" | "md" | "lg" | "xl" | "full";
   outlined?: boolean;

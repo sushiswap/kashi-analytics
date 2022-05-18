@@ -115,7 +115,7 @@ const MarketTableHead = ({
 };
 
 const MarketTableRowLoading = () => (
-  <div className="grid items-center w-full grid-cols-10 px-8 py-3 border-t border-l-2 border-transparent cursor-pointer border-t-gray-200 hover:border-l-emerald-400">
+  <div className="grid items-center w-full grid-cols-10 px-8 py-3 border-t border-l-2 border-transparent cursor-pointer border-t-gray-200 hover:border-l-primary1-400">
     <div className="flex items-center col-span-2">
       <div>
         <div className="inline-block w-8 h-8 rounded-full loading"></div>
@@ -174,7 +174,7 @@ const MarketTableRow = ({
 
   return (
     <Link href={`/pair/${data.id}`}>
-      <a className="grid items-center w-full grid-cols-10 px-8 py-3 border-t border-l-2 border-transparent cursor-pointer border-t-gray-200 hover:border-l-emerald-400">
+      <a className="grid items-center w-full grid-cols-10 px-8 py-3 border-t border-l-2 border-transparent cursor-pointer border-t-gray-200 hover:border-l-primary1-400">
         <div className="flex items-center col-span-2">
           <div>
             <img

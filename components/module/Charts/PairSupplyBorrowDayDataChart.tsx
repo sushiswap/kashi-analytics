@@ -3,11 +3,12 @@ import { BigNumber } from "ethers";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts/highstock";
 import moment from "moment";
+import TailwindConfig from "../../../config/tailwind";
 import { KashiPairDayDataMap } from "../../../types/KashiPairDayData";
 
 const AttributesByType = {
   supply: {
-    color: "#10b981",
+    color: TailwindConfig.theme.colors.secondary1.DEFAULT,
     valueFunc: (item: KashiPairDayDataMap) => ({
       x: moment(item.date).valueOf(),
       y:
@@ -20,7 +21,7 @@ const AttributesByType = {
     },
   },
   borrow: {
-    color: "#a855f7",
+    color: TailwindConfig.theme.colors.primary2.DEFAULT,
     valueFunc: (item: KashiPairDayDataMap) => ({
       x: moment(item.date).valueOf(),
       y: BigNumber.from(item.totalBorrow).toNumber() / 100.0,
@@ -109,31 +110,31 @@ const PairSupplyBorrowDayDataChart = ({
         "bg-white shadow-lg rounded over overflow-hidden": true,
       })}
     >
-      <div className="text-center text-lg font-medium pt-6">{title}</div>
+      <div className="pt-6 text-lg font-medium text-center">{title}</div>
       {!data || data.length === 0 ? (
         <div>
           <div
-            className="loading my-12 mx-4 rounded"
+            className="mx-4 my-12 rounded loading"
             style={{ height: "1px" }}
           ></div>
           <div
-            className="loading my-12 mx-4 rounded"
+            className="mx-4 my-12 rounded loading"
             style={{ height: "1px" }}
           ></div>
           <div
-            className="loading my-12 mx-4 rounded"
+            className="mx-4 my-12 rounded loading"
             style={{ height: "1px" }}
           ></div>
           <div
-            className="loading my-12 mx-4 rounded"
+            className="mx-4 my-12 rounded loading"
             style={{ height: "1px" }}
           ></div>
           <div
-            className="loading my-12 mx-4 rounded"
+            className="mx-4 my-12 rounded loading"
             style={{ height: "1px" }}
           ></div>
           <div
-            className="loading my-12 mx-4 rounded"
+            className="mx-4 my-12 rounded loading"
             style={{ height: "1px" }}
           ></div>
         </div>

@@ -2,6 +2,7 @@ import { BigNumber } from "ethers";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts/highstock";
 import moment from "moment";
+import TailwindConfig from "../../../config/tailwind";
 import { KashiPairDayDataMap } from "../../../types/KashiPairDayData";
 
 const TotalCompareChart = ({
@@ -32,7 +33,7 @@ const TotalCompareChart = ({
     return [
       {
         type: "column",
-        color: "#10b981",
+        color: TailwindConfig.theme.colors.primary3.DEFAULT,
         name: "Ratio",
         data: seriesData,
         tooltip: {
@@ -87,34 +88,34 @@ const TotalCompareChart = ({
   };
 
   return (
-    <div className="bg-white shadow-lg rounded overflow-hidden">
-      <div className="text-center text-lg font-medium pt-6">
+    <div className="overflow-hidden bg-white rounded shadow-lg">
+      <div className="pt-6 text-lg font-medium text-center">
         Borrow vs Supply ratio
       </div>
       {loading || !data || data.length === 0 ? (
         <div>
           <div
-            className="loading my-12 mx-4 rounded"
+            className="mx-4 my-12 rounded loading"
             style={{ height: "1px" }}
           ></div>
           <div
-            className="loading my-12 mx-4 rounded"
+            className="mx-4 my-12 rounded loading"
             style={{ height: "1px" }}
           ></div>
           <div
-            className="loading my-12 mx-4 rounded"
+            className="mx-4 my-12 rounded loading"
             style={{ height: "1px" }}
           ></div>
           <div
-            className="loading my-12 mx-4 rounded"
+            className="mx-4 my-12 rounded loading"
             style={{ height: "1px" }}
           ></div>
           <div
-            className="loading my-12 mx-4 rounded"
+            className="mx-4 my-12 rounded loading"
             style={{ height: "1px" }}
           ></div>
           <div
-            className="loading my-12 mx-4 rounded"
+            className="mx-4 my-12 rounded loading"
             style={{ height: "1px" }}
           ></div>
         </div>
