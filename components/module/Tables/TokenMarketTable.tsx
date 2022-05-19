@@ -180,6 +180,7 @@ const TokenMarketTable = ({
   const [sortedList, setSortedList] = useState<KashiPairsByToken[]>([]);
   const [list, setList] = useState<KashiPairsByToken[]>([]);
   const [isMore, setMore] = useState(false);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     setFullList(data);
@@ -269,9 +270,22 @@ const TokenMarketTable = ({
     setOrderDirection("desc");
   };
 
+  const handleSearchChange = (event: React.SyntheticEvent) => {
+    const target = event.target as HTMLInputElement;
+    setSearch(target.value);
+  };
+
   return (
     <div className="overflow-x-auto bg-white border rounded shadow-md">
       <h3 className="px-8 py-4 font-semibold">{title}</h3>
+      <div className="px-4 pb-2">
+        <input
+          type="text"
+          className="w-full p-2 border rounded focus:outline-primary1"
+          placeholder="Search by Token..."
+          onChange={handleSearchChange}
+        />
+      </div>
       <table className="w-full token-market-table">
         <thead>
           <MarketTableHead
@@ -295,9 +309,16 @@ const TokenMarketTable = ({
           //   threshold={10}
           // >
           <tbody>
-            {sortedList.map((data, index) => (
-              <MarketTableRow key={`${index}`} data={data} index={index} />
-            ))}
+            {sortedList
+              .filter(
+                (value) =>
+                  value.token.symbol
+                    .toLowerCase()
+                    .indexOf(search.toLowerCase()) >= 0
+              )
+              .map((data, index) => (
+                <MarketTableRow key={`${index}`} data={data} index={index} />
+              ))}
           </tbody>
           // </InfiniteScroll>
         )}

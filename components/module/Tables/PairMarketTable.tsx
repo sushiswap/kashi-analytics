@@ -299,6 +299,8 @@ const PairMarketTable = ({
   const [sortedList, setSortedList] = useState<KashiPair[]>([]);
   const [list, setList] = useState<KashiPair[]>([]);
   const [isMore, setMore] = useState(false);
+  const [search, setSearch] = useState("");
+  const { tokenUtilService } = useAppContext();
 
   useEffect(() => {
     setFullList(data);
@@ -410,9 +412,22 @@ const PairMarketTable = ({
     setOrderDirection("desc");
   };
 
+  const handleSearchChange = (event: React.SyntheticEvent) => {
+    const target = event.target as HTMLInputElement;
+    setSearch(target.value);
+  };
+
   return (
     <div className="overflow-x-auto bg-white border rounded shadow-md">
       <h3 className="px-8 py-4 font-semibold">{title}</h3>
+      <div className="px-4 pb-2">
+        <input
+          type="text"
+          className="w-full p-2 border rounded focus:outline-primary1"
+          placeholder="Search by Asset/Collateral..."
+          onChange={handleSearchChange}
+        />
+      </div>
       <table className="w-full pair-market-table">
         <thead>
           <MarketTableHead
@@ -436,9 +451,20 @@ const PairMarketTable = ({
           //   threshold={10}
           // >
           <tbody>
-            {sortedList.map((data, index) => (
-              <MarketTableRow key={`${data.id}`} data={data} index={index} />
-            ))}
+            {sortedList
+              .filter((value) => {
+                const token = tokenUtilService.pairSymbol(
+                  value.asset?.symbol,
+                  value.collateral?.symbol
+                );
+                if (token) {
+                  return token.toLowerCase().indexOf(search.toLowerCase()) >= 0;
+                }
+                return false;
+              })
+              .map((data, index) => (
+                <MarketTableRow key={`${data.id}`} data={data} index={index} />
+              ))}
           </tbody>
           // </InfiniteScroll>
         )}
